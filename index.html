@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <!-- TODO(user): 아래 설명/제목의 이름과 소개 문구를 본인 것으로 바꾸세요. -->
+  <meta name="description" content="허준의 포트폴리오 - 순수 HTML, CSS, JavaScript로 만든 반응형 자기소개 웹페이지입니다.">
+  <meta name="author" content="허준">
+  <title>허준 | 나를 소개하는 웹페이지</title>
+
+  <link rel="icon" type="image/svg+xml" href="./images/favicon.svg">
+  <link rel="stylesheet" href="./css/style.css">
+
+  <!--
+    모든 자바스크립트는 외부 파일 + defer 로 연결한다.
+    defer 는 HTML 파싱을 막지 않고, 문서 파싱이 끝난 뒤 "작성된 순서대로" 실행되므로
+    config -> utils -> 각 기능 모듈 -> main(부트스트랩) 순서가 보장된다.
+  -->
+  <script defer src="./js/config.js"></script>
+  <script defer src="./js/utils.js"></script>
+  <script defer src="./js/theme.js"></script>
+  <script defer src="./js/nav.js"></script>
+  <script defer src="./js/scroll.js"></script>
+  <script defer src="./js/reveal.js"></script>
+  <script defer src="./js/projects.js"></script>
+  <script defer src="./js/form.js"></script>
+  <script defer src="./js/typing.js"></script>
+  <script defer src="./js/main.js"></script>
+</head>
+
+<body>
+  <!-- ============================================================
+       인라인 SVG 아이콘 스프라이트
+       외부 아이콘 폰트(Font Awesome) / CDN 을 쓰지 않기 위한 대체 수단.
+       네트워크 요청이 0건이고, currentColor 를 쓰므로 다크 모드에 자동으로 따라온다.
+       ============================================================ -->
+  <svg class="sprite" hidden aria-hidden="true" focusable="false">
+    <symbol id="icon-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </symbol>
+    <symbol id="icon-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <line x1="5" y1="5" x2="19" y2="19"></line>
+      <line x1="19" y1="5" x2="5" y2="19"></line>
+    </symbol>
+    <symbol id="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+      <circle cx="12" cy="12" r="4"></circle>
+      <line x1="12" y1="2" x2="12" y2="4"></line>
+      <line x1="12" y1="20" x2="12" y2="22"></line>
+      <line x1="4.2" y1="4.2" x2="5.6" y2="5.6"></line>
+      <line x1="18.4" y1="18.4" x2="19.8" y2="19.8"></line>
+      <line x1="2" y1="12" x2="4" y2="12"></line>
+      <line x1="20" y1="12" x2="22" y2="12"></line>
+      <line x1="4.2" y1="19.8" x2="5.6" y2="18.4"></line>
+      <line x1="18.4" y1="5.6" x2="19.8" y2="4.2"></line>
+    </symbol>
+    <symbol id="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5z"></path>
+    </symbol>
+    <symbol id="icon-arrow-up" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="12" y1="20" x2="12" y2="5"></line>
+      <polyline points="5 12 12 5 19 12"></polyline>
+    </symbol>
+    <symbol id="icon-star" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+      <path d="M12 2.6l2.9 5.9 6.5.9-4.7 4.6 1.1 6.5-5.8-3.1-5.8 3.1 1.1-6.5L2.6 9.4l6.5-.9z"></path>
+    </symbol>
+    <symbol id="icon-fork" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="6" cy="5" r="2.5"></circle>
+      <circle cx="18" cy="5" r="2.5"></circle>
+      <circle cx="12" cy="19" r="2.5"></circle>
+      <path d="M6 7.5v2a2.5 2.5 0 0 0 2.5 2.5h7A2.5 2.5 0 0 0 18 9.5v-2"></path>
+      <line x1="12" y1="12" x2="12" y2="16.5"></line>
+    </symbol>
+    <symbol id="icon-github" viewBox="0 0 24 24" fill="currentColor" stroke="none">
+      <path d="M12 1.5A10.5 10.5 0 0 0 1.5 12c0 4.64 3 8.57 7.18 9.96.52.1.71-.23.71-.5v-1.76c-2.92.64-3.54-1.4-3.54-1.4-.48-1.22-1.17-1.55-1.17-1.55-.95-.65.07-.64.07-.64 1.06.07 1.61 1.09 1.61 1.09.94 1.6 2.46 1.14 3.06.87.1-.68.37-1.15.66-1.41-2.33-.27-4.78-1.17-4.78-5.2 0-1.15.41-2.09 1.08-2.83-.11-.27-.47-1.34.1-2.79 0 0 .88-.28 2.89 1.08a9.9 9.9 0 0 1 5.26 0c2-1.36 2.88-1.08 2.88-1.08.58 1.45.22 2.52.11 2.79.68.74 1.08 1.68 1.08 2.83 0 4.04-2.45 4.93-4.79 5.19.38.33.71.97.71 1.95v2.89c0 .28.19.61.72.5A10.5 10.5 0 0 0 22.5 12 10.5 10.5 0 0 0 12 1.5z"></path>
+    </symbol>
+    <symbol id="icon-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <rect x="2.5" y="4.5" width="19" height="15" rx="2"></rect>
+      <polyline points="3 6 12 13 21 6"></polyline>
+    </symbol>
+    <symbol id="icon-link" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M14 4h6v6"></path>
+      <line x1="20" y1="4" x2="11" y2="13"></line>
+      <path d="M18 14v5a1.5 1.5 0 0 1-1.5 1.5h-11A1.5 1.5 0 0 1 4 19V8a1.5 1.5 0 0 1 1.5-1.5H10"></path>
+    </symbol>
+    <symbol id="icon-alert" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <circle cx="12" cy="12" r="9"></circle>
+      <line x1="12" y1="7.5" x2="12" y2="13"></line>
+      <line x1="12" y1="16.5" x2="12" y2="16.6"></line>
+    </symbol>
+    <symbol id="icon-inbox" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M3 13h5l1.5 3h5L16 13h5"></path>
+      <path d="M5.5 4.5h13l2.5 8.5v5a1.5 1.5 0 0 1-1.5 1.5h-15A1.5 1.5 0 0 1 3 18v-5z"></path>
+    </symbol>
+  </svg>
+
+  <a class="skip-link" href="#main">본문 바로가기</a>
+
+  <!-- ============================ HEADER / NAV ============================ -->
+  <header class="header" id="site-header">
+    <nav class="nav container" id="primary-nav" aria-label="주요 메뉴">
+      <a class="nav__logo" href="#hero">
+        <span class="nav__logo-mark" aria-hidden="true">HJ</span>
+        <span class="nav__logo-text">허준</span>
+      </a>
+
+      <ul class="nav__list" id="nav-menu">
+        <li class="nav__item"><a class="nav__link" href="#hero">Home</a></li>
+        <li class="nav__item"><a class="nav__link" href="#about">About</a></li>
+        <li class="nav__item"><a class="nav__link" href="#skills">Skills</a></li>
+        <li class="nav__item"><a class="nav__link" href="#projects">Projects</a></li>
+        <li class="nav__item"><a class="nav__link" href="#contact">Contact</a></li>
+      </ul>
+
+      <div class="nav__actions">
+        <button class="icon-btn" id="theme-toggle" type="button" aria-pressed="false" aria-label="다크 모드 켜기">
+          <svg class="icon icon--sun" aria-hidden="true" focusable="false"><use href="#icon-sun"></use></svg>
+          <svg class="icon icon--moon" aria-hidden="true" focusable="false"><use href="#icon-moon"></use></svg>
+        </button>
+
+        <button class="icon-btn nav__toggle" id="nav-toggle" type="button" aria-controls="nav-menu" aria-expanded="false" aria-label="메뉴 열기">
+          <svg class="icon icon--menu" aria-hidden="true" focusable="false"><use href="#icon-menu"></use></svg>
+          <svg class="icon icon--close" aria-hidden="true" focusable="false"><use href="#icon-close"></use></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- ================================ MAIN ================================ -->
+  <main id="main" tabindex="-1">
+
+    <!-- ------------------------------ HERO ------------------------------ -->
+    <section class="section hero" id="hero" aria-labelledby="hero-title">
+      <div class="container hero__inner">
+        <p class="hero__eyebrow reveal">Hello, World!</p>
+        <!-- TODO(user): 이름을 본인 이름으로 교체하세요. -->
+        <h1 class="hero__title reveal" id="hero-title">
+          안녕하세요,<br>
+          <span class="hero__name">허준</span>입니다.
+        </h1>
+        <!-- TODO(user): 한 줄 소개를 본인 문구로 교체하세요. data-typing-text 가 타이핑 효과의 원본 문구입니다. -->
+        <p class="hero__tagline reveal">
+          <span class="typing" id="hero-typing" data-typing-text="웹과 AI를 함께 배우는 개발자">웹과 AI를 함께 배우는 개발자</span>
+        </p>
+        <p class="hero__desc reveal">
+          외부 라이브러리 없이 HTML · CSS · JavaScript 만으로 만든 반응형 포트폴리오입니다.
+        </p>
+        <div class="hero__actions reveal">
+          <a class="btn btn--primary" href="#projects">프로젝트 보기</a>
+          <a class="btn btn--ghost" href="#contact">문의하기</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------ ABOUT ----------------------------- -->
+    <section class="section" id="about" aria-labelledby="about-title">
+      <div class="container">
+        <p class="section__eyebrow reveal">01 / About</p>
+        <h2 class="section__title reveal" id="about-title">저는 이런 사람입니다</h2>
+
+        <div class="about">
+          <figure class="about__figure reveal">
+            <!-- TODO(user): images/profile.svg 를 본인 사진(jpg/png/webp)으로 교체하고 alt 도 함께 수정하세요. -->
+            <img class="about__photo" src="./images/profile.svg" width="360" height="360" loading="lazy"
+                 alt="허준의 프로필 이미지 - 이니셜 HJ가 적힌 원형 아바타">
+            <figcaption class="about__caption">허준 · 프론트엔드 학습 중</figcaption>
+          </figure>
+
+          <div class="about__body reveal">
+            <!-- TODO(user): 아래 두 문단은 더미 텍스트입니다. 본인 이야기로 바꿔 주세요. -->
+            <p>
+              브라우저가 이해하는 유일한 언어인 HTML, CSS, JavaScript 부터 차근차근 익히고 있습니다.
+              화면을 그리는 것에서 멈추지 않고 <strong>사용자 이벤트 → 상태 변경 → 화면 업데이트</strong>로
+              이어지는 흐름을 코드로 설명할 수 있는 개발자가 되는 것이 목표입니다.
+            </p>
+            <p>
+              이 페이지도 프레임워크 없이 직접 만들었습니다. 다크 모드 · 햄버거 메뉴 · 스크롤 애니메이션은
+              모두 DOM API 로 구현했고, Projects 섹션은 GitHub REST API 를 호출해 로딩 · 성공 · 실패 · 빈 상태를
+              직접 처리합니다.
+            </p>
+
+            <ul class="about__facts">
+              <li class="about__fact">
+                <span class="about__fact-key">관심 분야</span>
+                <span class="about__fact-value">프론트엔드 · AI 도구 활용</span>
+              </li>
+              <li class="about__fact">
+                <span class="about__fact-key">지금 배우는 것</span>
+                <span class="about__fact-value">DOM · 비동기 · 곧 React</span>
+              </li>
+              <li class="about__fact">
+                <span class="about__fact-key">연락</span>
+                <!-- TODO(user): 이메일 주소를 본인 것으로 교체하세요. (js/config.js 의 email 값도 함께) -->
+                <span class="about__fact-value"><a class="link" href="mailto:your-email@example.com" data-email-link>your-email@example.com</a></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ------------------------------ SKILLS ---------------------------- -->
+    <section class="section section--alt" id="skills" aria-labelledby="skills-title">
+      <div class="container">
+        <p class="section__eyebrow reveal">02 / Skills</p>
+        <h2 class="section__title reveal" id="skills-title">사용할 수 있는 기술</h2>
+        <p class="section__lead reveal">이 페이지를 만들면서 실제로 사용한 기술들입니다.</p>
+
+        <!-- TODO(user): 기술 목록/숙련도 문구를 본인 기준으로 조정하세요. -->
+        <div class="skills">
+          <article class="skills__group reveal">
+            <h3 class="skills__group-title">마크업 &amp; 스타일</h3>
+            <ul class="skills__list">
+              <li class="skill">HTML5 시맨틱 마크업</li>
+              <li class="skill">CSS 변수 · Flexbox · Grid</li>
+              <li class="skill">반응형 (모바일 퍼스트)</li>
+              <li class="skill">웹 접근성 기초 (ARIA)</li>
+            </ul>
+          </article>
+
+          <article class="skills__group reveal">
+            <h3 class="skills__group-title">자바스크립트</h3>
+            <ul class="skills__list">
+              <li class="skill">ES6+ (화살표 함수 · 구조분해)</li>
+              <li class="skill">DOM 조작 · 이벤트 처리</li>
+              <li class="skill">fetch · async / await</li>
+              <li class="skill">IntersectionObserver</li>
+            </ul>
+          </article>
+
+          <article class="skills__group reveal">
+            <h3 class="skills__group-title">도구 &amp; 그 외</h3>
+            <ul class="skills__list">
+              <li class="skill">Git · GitHub · GitHub Pages</li>
+              <li class="skill">VS Code · Live Server</li>
+              <li class="skill">GitHub REST API</li>
+              <li class="skill">Python (기초)</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ----------------------------- PROJECTS --------------------------- -->
+    <section class="section" id="projects" aria-labelledby="projects-title">
+      <div class="container">
+        <p class="section__eyebrow reveal">03 / Projects</p>
+        <h2 class="section__title reveal" id="projects-title">GitHub 저장소</h2>
+        <p class="section__lead reveal">
+          GitHub REST API 로 저장소 목록을 실시간으로 불러옵니다.
+          <span class="section__note">(비로그인 호출은 시간당 60회 제한이 있어 새로고침을 자주 하면 잠시 막힐 수 있습니다.)</span>
+        </p>
+
+        <!-- 언어별 필터 버튼: 데이터가 도착한 뒤 JS 가 채운다 (보너스 과제) -->
+        <div class="projects__filter" id="projects-filter" role="group" aria-label="프로그래밍 언어로 프로젝트 필터"></div>
+
+        <!-- 로딩 / 에러 / 빈 상태가 표시되는 영역 (스크린리더에도 전달) -->
+        <div class="projects__status" id="projects-status" role="status" aria-live="polite"></div>
+
+        <!-- 성공 상태의 카드가 렌더링되는 영역 -->
+        <div class="projects__grid" id="projects-grid"></div>
+      </div>
+    </section>
+
+    <!-- ----------------------------- CONTACT ---------------------------- -->
+    <section class="section section--alt" id="contact" aria-labelledby="contact-title">
+      <div class="container container--narrow">
+        <p class="section__eyebrow reveal">04 / Contact</p>
+        <h2 class="section__title reveal" id="contact-title">메시지 보내기</h2>
+        <p class="section__lead reveal">
+          궁금한 점이 있다면 아래 폼으로 남겨 주세요.
+          <span class="section__note">(이 폼은 백엔드 없이 프론트엔드 유효성 검사만 수행합니다.)</span>
+        </p>
+
+        <!--
+          novalidate: 브라우저 기본 말풍선 대신 우리가 만든 에러 메시지를 항상 보여주기 위해 사용.
+          required 속성은 의미 전달(접근성)을 위해 그대로 남겨 둔다.
+        -->
+        <form class="form reveal" id="contact-form" novalidate>
+          <div class="field">
+            <label class="field__label" for="contact-name">이름 <span class="field__required" aria-hidden="true">*</span></label>
+            <input class="field__input" type="text" id="contact-name" name="name"
+                   required autocomplete="name" placeholder="홍길동"
+                   aria-describedby="contact-name-error">
+            <p class="field__error" id="contact-name-error" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="contact-email">이메일 <span class="field__required" aria-hidden="true">*</span></label>
+            <input class="field__input" type="email" id="contact-email" name="email"
+                   required autocomplete="email" placeholder="you@example.com"
+                   aria-describedby="contact-email-error">
+            <p class="field__error" id="contact-email-error" role="alert"></p>
+          </div>
+
+          <div class="field">
+            <label class="field__label" for="contact-message">메시지 <span class="field__required" aria-hidden="true">*</span></label>
+            <textarea class="field__input field__input--textarea" id="contact-message" name="message"
+                      rows="6" required placeholder="10자 이상 입력해 주세요."
+                      aria-describedby="contact-message-error"></textarea>
+            <p class="field__error" id="contact-message-error" role="alert"></p>
+          </div>
+
+          <div class="form__footer">
+            <button class="btn btn--primary" id="contact-submit" type="submit">보내기</button>
+            <p class="form__success" id="form-success" role="status"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================================ FOOTER ============================== -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__copy">
+        &copy; <span id="footer-year">2026</span> 허준. All rights reserved.
+      </p>
+
+      <ul class="footer__socials">
+        <li>
+          <!-- href 는 js/config.js 의 githubUsername 에서 자동으로 채워집니다. -->
+          <a class="footer__social" href="https://github.com" data-github-link target="_blank" rel="noopener noreferrer">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-github"></use></svg>
+            GitHub<span class="sr-only">(새 창에서 열림)</span>
+          </a>
+        </li>
+        <li>
+          <a class="footer__social" href="mailto:your-email@example.com" data-email-link>
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-mail"></use></svg>
+            Email
+          </a>
+        </li>
+        <!-- TODO(user): LinkedIn 등 다른 소셜 링크가 있으면 js/config.js 의 socials 에 주소를 채우세요.
+             값이 비어 있으면 아래 항목은 자동으로 숨겨집니다. -->
+        <li data-social-item="linkedin" hidden>
+          <a class="footer__social" data-social-link="linkedin" target="_blank" rel="noopener noreferrer">
+            <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-link"></use></svg>
+            LinkedIn<span class="sr-only">(새 창에서 열림)</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </footer>
+
+  <button class="scroll-top" id="scroll-top" type="button" aria-label="페이지 맨 위로 이동">
+    <svg class="icon" aria-hidden="true" focusable="false"><use href="#icon-arrow-up"></use></svg>
+  </button>
+</body>
+</html>
