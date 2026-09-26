@@ -1,1320 +1,362 @@
-/* ==========================================================================
-   B1-1 · 나를 소개하는 웹페이지
-   순수 CSS (외부 라이브러리 · CDN · 웹폰트 없음)
-
-   목차
-   01. 디자인 토큰 (:root)
-   02. 다크 모드 토큰
-   03. 리셋 & 베이스
-   04. 유틸리티 (container / sr-only / skip-link)
-   05. 버튼
-   06. 헤더 & 네비게이션 (Flexbox)
-   07. 섹션 공통
-   08. Hero
-   09. About
-   10. Skills
-   11. Projects (CSS Grid + 상태 UI)
-   12. Contact 폼
-   13. Footer
-   14. 스크롤 탑 버튼
-   15. 스크롤 등장 애니메이션 (reveal)
-   16. 반응형 - 768px (태블릿)
-   17. 반응형 - 1024px (데스크톱)
-   18. 모션 최소화 환경 대응
-   ========================================================================== */
-
-/* ==========================================================================
-   01. 디자인 토큰 — 색상 / 폰트 / 간격을 CSS 변수로 한 곳에서 관리한다.
-   원시 색상값을 컴포넌트에 직접 쓰지 않으므로, 다크 모드는 아래 02번에서
-   "같은 이름의 변수 값만 교체"하면 되고 컴포넌트 CSS 는 한 줄도 고치지 않는다.
-   ========================================================================== */
+/* 변수 */
 :root {
-  /* --- 색상 (의미 기반 토큰) --- */
-  --color-bg: #f7f8fb;
-  --color-surface: #ffffff;
-  --color-surface-2: #eef1f7;
-  --color-text: #16192b;
-  --color-text-muted: #5a6072;
-  --color-border: #dfe3ec;
+  --color-bg: #ffffff;
+  --color-bg-alt: #f3f4f8;
+  --color-text: #1b1d29;
+  --color-muted: #5f6475;
   --color-primary: #3d5afe;
-  --color-primary-strong: #2f46d1;
-  --color-primary-soft: #e6eaff;
-  --color-on-primary: #ffffff;
-  --color-accent: #00a37a;
-  --color-danger: #d32f4b;
-  --color-danger-soft: #fdecef;
+  --color-error: #d32f4b;
   --color-success: #0f8a5f;
-  --color-success-soft: #e6f6ef;
-  --color-header-bg: rgba(247, 248, 251, 0.72);
-  --color-overlay: rgba(10, 12, 24, 0.45);
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 
-  --shadow-sm: 0 1px 2px rgba(16, 20, 40, 0.06);
-  --shadow-card: 0 4px 16px rgba(16, 20, 40, 0.08);
-  --shadow-card-hover: 0 14px 32px rgba(16, 20, 40, 0.16);
-  --shadow-header: 0 2px 12px rgba(16, 20, 40, 0.1);
+  --font: "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
 
-  /* --- 타이포그래피 --- */
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Apple SD Gothic Neo",
-    "Noto Sans KR", "Malgun Gothic", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, "D2Coding", monospace;
-
-  --fs-100: 0.75rem;   /* 12px */
-  --fs-200: 0.875rem;  /* 14px */
-  --fs-300: 1rem;      /* 16px */
-  --fs-400: 1.125rem;  /* 18px */
-  --fs-500: 1.375rem;  /* 22px */
-  --fs-600: 1.75rem;   /* 28px */
-  --fs-700: 2.25rem;   /* 36px */
-  --fs-800: 2.75rem;   /* 44px */
-
-  --lh-tight: 1.25;
-  --lh-base: 1.7;
-  --fw-regular: 400;
-  --fw-medium: 500;
-  --fw-bold: 700;
-
-  /* --- 간격 (4px 배수 스케일) --- */
-  --space-1: 0.25rem;  /* 4px */
-  --space-2: 0.5rem;   /* 8px */
-  --space-3: 0.75rem;  /* 12px */
-  --space-4: 1rem;     /* 16px */
-  --space-5: 1.5rem;   /* 24px */
-  --space-6: 2rem;     /* 32px */
-  --space-7: 3rem;     /* 48px */
-  --space-8: 4.5rem;   /* 72px */
-
-  /* --- 형태 / 모션 / 레이아웃 --- */
-  --radius-sm: 6px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
-  --radius-pill: 999px;
-
-  --dur-fast: 120ms;
-  --dur-base: 240ms;
-  --dur-slow: 560ms;
-  --ease: cubic-bezier(0.4, 0, 0.2, 1);
-
-  --header-h: 60px;
-  --container-max: 1120px;
-  --tap-min: 44px;
-
-  color-scheme: light;
+  --space-s: 0.5rem;
+  --space-m: 1rem;
+  --space-l: 2rem;
+  --space-xl: 4rem;
 }
 
-/* ==========================================================================
-   02. 다크 모드 토큰
-   (a) [data-theme="dark"] — 사용자가 토글로 직접 선택했을 때 (JS 가 붙인다)
-   (b) prefers-color-scheme — JS 가 실행되기 전이거나 저장된 값이 없을 때의
-       초기 화면. 사용자가 명시적으로 라이트를 골랐다면(:not([data-theme="light"]))
-       무시한다.  ← 보너스 과제 "시스템 다크 모드 감지"
-   ========================================================================== */
 [data-theme="dark"] {
-  --color-bg: #0e1118;
-  --color-surface: #161b26;
-  --color-surface-2: #1f2634;
+  --color-bg: #12151d;
+  --color-bg-alt: #1c212c;
   --color-text: #e8ebf2;
-  --color-text-muted: #a3acc0;
-  --color-border: #2b3345;
+  --color-muted: #a3acc0;
   --color-primary: #8ea2ff;
-  --color-primary-strong: #a9b8ff;
-  --color-primary-soft: #232b45;
-  --color-on-primary: #0e1118;
-  --color-accent: #4fd1a5;
-  --color-danger: #ff8093;
-  --color-danger-soft: #331b22;
-  --color-success: #5ad6a0;
-  --color-success-soft: #142b23;
-  --color-header-bg: rgba(14, 17, 24, 0.72);
-  --color-overlay: rgba(0, 0, 0, 0.6);
-
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-  --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.45);
-  --shadow-card-hover: 0 14px 32px rgba(0, 0, 0, 0.6);
-  --shadow-header: 0 2px 12px rgba(0, 0, 0, 0.5);
-
-  color-scheme: dark;
+  --color-error: #ff7b8f;
+  --color-success: #4fd1a1;
+  --shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --color-bg: #0e1118;
-    --color-surface: #161b26;
-    --color-surface-2: #1f2634;
-    --color-text: #e8ebf2;
-    --color-text-muted: #a3acc0;
-    --color-border: #2b3345;
-    --color-primary: #8ea2ff;
-    --color-primary-strong: #a9b8ff;
-    --color-primary-soft: #232b45;
-    --color-on-primary: #0e1118;
-    --color-accent: #4fd1a5;
-    --color-danger: #ff8093;
-    --color-danger-soft: #331b22;
-    --color-success: #5ad6a0;
-    --color-success-soft: #142b23;
-    --color-header-bg: rgba(14, 17, 24, 0.72);
-    --color-overlay: rgba(0, 0, 0, 0.6);
-
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
-    --shadow-card: 0 4px 16px rgba(0, 0, 0, 0.45);
-    --shadow-card-hover: 0 14px 32px rgba(0, 0, 0, 0.6);
-    --shadow-header: 0 2px 12px rgba(0, 0, 0, 0.5);
-
-    color-scheme: dark;
-  }
-}
-
-/* ==========================================================================
-   03. 리셋 & 베이스
-   ========================================================================== */
-*,
-*::before,
-*::after {
+/* 기본 */
+* {
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 html {
-  /* 부드러운 스크롤은 JS(scrollIntoView)에서 제어한다.
-     CSS 전역 smooth 를 켜두면 모션 최소화 설정을 코드로 끄기 어려워진다. */
-  scroll-behavior: auto;
-  -webkit-text-size-adjust: 100%;
-  background-color: var(--color-bg);
+  scroll-behavior: smooth;
+  scroll-padding-top: 60px;
 }
 
 body {
-  margin: 0;
-  background-color: var(--color-bg);
+  font-family: var(--font);
+  line-height: 1.6;
   color: var(--color-text);
-  font-family: var(--font-sans);
-  font-size: var(--fs-300);
-  line-height: var(--lh-base);
-  overflow-x: hidden;
-  transition: background-color var(--dur-base) var(--ease), color var(--dur-base) var(--ease);
-}
-
-/* 모바일 메뉴가 열려 있는 동안 배경 스크롤 잠금 (인라인 스타일 대신 클래스 사용) */
-body.is-menu-open {
-  overflow: hidden;
-}
-
-h1, h2, h3, h4, p, figure, blockquote {
-  margin: 0;
-}
-
-ul, ol {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-}
-
-img, svg {
-  display: block;
-  max-width: 100%;
-}
-
-img {
-  height: auto;
+  background: var(--color-bg);
 }
 
 a {
-  color: inherit;
+  color: var(--color-primary);
   text-decoration: none;
 }
 
-button,
-input,
-textarea {
-  font: inherit;
-  color: inherit;
+ul {
+  list-style: none;
 }
 
-button {
-  cursor: pointer;
+h2 {
+  margin-bottom: var(--space-m);
 }
 
-strong {
-  font-weight: var(--fw-bold);
-}
-
-:focus-visible {
-  outline: 2px solid var(--color-primary);
-  outline-offset: 3px;
-  border-radius: var(--radius-sm);
-}
-
-#main:focus {
-  outline: none;
-}
-
-.sprite {
-  display: none;
-}
-
-.icon {
-  width: 1.25em;
-  height: 1.25em;
-  flex: none;
-}
-
-.link {
-  color: var(--color-primary);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-  transition: color var(--dur-fast) var(--ease);
-}
-
-.link:hover {
-  color: var(--color-primary-strong);
-}
-
-/* ==========================================================================
-   04. 유틸리티
-   ========================================================================== */
 .container {
-  width: 100%;
-  max-width: var(--container-max);
-  margin-inline: auto;
-  padding-inline: var(--space-4);
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 var(--space-m);
 }
 
-.container--narrow {
-  max-width: 720px;
+.section {
+  padding: var(--space-xl) 0;
 }
 
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  white-space: nowrap;
-  border: 0;
+.section:nth-of-type(even) {
+  background: var(--color-bg-alt);
 }
 
-.skip-link {
-  position: absolute;
-  top: var(--space-2);
-  left: var(--space-2);
-  z-index: 200;
-  padding: var(--space-2) var(--space-4);
-  background-color: var(--color-primary);
-  color: var(--color-on-primary);
-  border-radius: var(--radius-sm);
-  transform: translateY(-200%);
-  transition: transform var(--dur-fast) var(--ease);
-}
-
-.skip-link:focus-visible {
-  transform: translateY(0);
-}
-
-/* ==========================================================================
-   05. 버튼 — hover 효과 + transition
-   ========================================================================== */
+/* 버튼 */
 .btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--space-2);
-  min-height: var(--tap-min);
-  padding: var(--space-3) var(--space-5);
-  border: 1px solid transparent;
-  border-radius: var(--radius-pill);
-  font-size: var(--fs-300);
-  font-weight: var(--fw-medium);
-  text-align: center;
-  transition: background-color var(--dur-base) var(--ease),
-    color var(--dur-base) var(--ease),
-    border-color var(--dur-base) var(--ease),
-    box-shadow var(--dur-base) var(--ease),
-    transform var(--dur-base) var(--ease);
+  display: inline-block;
+  padding: var(--space-s) var(--space-m);
+  border: 2px solid var(--color-primary);
+  border-radius: 8px;
+  background: var(--color-primary);
+  color: #ffffff;
+  font: inherit;
+  cursor: pointer;
+  transition: transform 0.2s, opacity 0.2s;
 }
 
-.btn--primary {
-  background-color: var(--color-primary);
-  color: var(--color-on-primary);
-  box-shadow: var(--shadow-sm);
-}
-
-.btn--primary:hover {
-  background-color: var(--color-primary-strong);
-  box-shadow: var(--shadow-card);
+.btn:hover {
   transform: translateY(-2px);
+  opacity: 0.85;
 }
 
-.btn--ghost {
-  background-color: transparent;
-  color: var(--color-text);
-  border-color: var(--color-border);
-}
-
-.btn--ghost:hover {
-  background-color: var(--color-surface);
-  border-color: var(--color-primary);
+.btn-outline {
+  background: transparent;
   color: var(--color-primary);
-  transform: translateY(-2px);
-}
-
-.btn--small {
-  min-height: 36px;
-  padding: var(--space-2) var(--space-4);
-  font-size: var(--fs-200);
-}
-
-.btn:active {
-  transform: translateY(0);
 }
 
 .icon-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--tap-min);
-  height: var(--tap-min);
-  padding: 0;
-  background-color: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-pill);
-  color: var(--color-text);
-  transition: background-color var(--dur-base) var(--ease),
-    border-color var(--dur-base) var(--ease),
-    color var(--dur-base) var(--ease);
+  border: none;
+  background: none;
+  font-size: 1.25rem;
+  cursor: pointer;
 }
 
-.icon-btn:hover {
-  background-color: var(--color-primary-soft);
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
-
-/* 테마 토글: 현재 테마에 맞는 아이콘 하나만 보인다 */
-.icon--moon,
-.icon--close {
-  display: none;
-}
-
-[data-theme="dark"] .icon--sun {
-  display: none;
-}
-
-[data-theme="dark"] .icon--moon {
-  display: block;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) .icon--sun {
-    display: none;
-  }
-
-  :root:not([data-theme="light"]) .icon--moon {
-    display: block;
-  }
-}
-
-/* 햄버거: 메뉴가 열리면 X 아이콘으로 바뀐다 */
-.nav.active .icon--menu {
-  display: none;
-}
-
-.nav.active .icon--close {
-  display: block;
-}
-
-/* ==========================================================================
-   06. 헤더 & 네비게이션 — Flexbox (로고 왼쪽 / 메뉴·액션 오른쪽)
-   ========================================================================== */
+/* 헤더 · 네비게이션 (Flexbox) */
 .header {
   position: fixed;
   top: 0;
   left: 0;
-  right: 0;
-  z-index: 100;
-  background-color: transparent;
-  transition: background-color var(--dur-base) var(--ease),
-    box-shadow var(--dur-base) var(--ease),
-    border-color var(--dur-base) var(--ease);
-  border-bottom: 1px solid transparent;
+  width: 100%;
+  height: 60px;
+  z-index: 10;
+  transition: background 0.3s, box-shadow 0.3s;
 }
 
-/* 스크롤 60px 이상에서 JS 가 붙이는 클래스 → 배경색 변경 */
-.header.is-scrolled {
-  background-color: var(--color-header-bg);
-  backdrop-filter: blur(12px);
-  box-shadow: var(--shadow-header);
-  border-bottom-color: var(--color-border);
-}
-
-/* 모바일에서 메뉴를 열면 패널 배경이 필요하므로 헤더도 불투명하게 */
-.header:has(.nav.active) {
-  background-color: var(--color-header-bg);
-  backdrop-filter: blur(12px);
-  border-bottom-color: var(--color-border);
-}
-
-/*
-  backdrop-filter 폴백.
-  --color-header-bg 는 알파 0.72 의 반투명 색이라 "뒤를 흐리게" 하는 blur 가 함께 걸릴 때만
-  헤더 글자가 또렷하게 읽힌다. backdrop-filter 를 지원하지 않는 브라우저에서는 배경이
-  그대로 비쳐 네비 글자와 본문이 겹쳐 보일 수 있으므로, 불투명한 페이지 배경색을 대신 쓴다.
-  (뒤따르는 데스크톱 미디어 쿼리가 이 값을 다시 덮어쓸 수 있도록 여기에 둔다.)
-*/
-@supports not (backdrop-filter: blur(1px)) {
-  .header.is-scrolled,
-  .header:has(.nav.active) {
-    background-color: var(--color-bg);
-  }
+.header.scrolled {
+  background: var(--color-bg);
+  box-shadow: var(--shadow);
 }
 
 .nav {
-  position: relative;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--space-3);
-  min-height: var(--header-h);
+  gap: var(--space-m);
+  height: 100%;
 }
 
-.nav__logo {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  font-weight: var(--fw-bold);
-  letter-spacing: -0.01em;
+.logo {
+  font-weight: bold;
+  font-size: 1.25rem;
+  color: var(--color-text);
 }
 
-.nav__logo-mark {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background-color: var(--color-primary);
-  color: var(--color-on-primary);
-  border-radius: var(--radius-sm);
-  font-size: var(--fs-200);
-  transition: transform var(--dur-base) var(--ease);
-}
-
-.nav__logo:hover .nav__logo-mark {
-  transform: rotate(-8deg) scale(1.06);
-}
-
-/* 모바일 기본값: 메뉴 목록은 숨기고 햄버거 버튼만 보인다 */
-.nav__list {
-  position: absolute;
-  top: calc(100% + var(--space-2));
-  left: 0;
-  right: 0;
+.nav-menu {
   display: none;
-  flex-direction: column;
-  gap: var(--space-1);
-  padding: var(--space-3);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
+  position: absolute;
+  top: 60px;
+  left: 0;
+  width: 100%;
+  padding: var(--space-m);
+  background: var(--color-bg);
+  box-shadow: var(--shadow);
 }
 
-/* classList.toggle('active') 로 열고 닫는다 */
-.nav.active .nav__list {
-  display: flex;
-  animation: menu-in var(--dur-base) var(--ease);
-}
-
-@keyframes menu-in {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.nav__link {
-  display: flex;
-  align-items: center;
-  min-height: var(--tap-min);
-  padding: var(--space-2) var(--space-3);
-  border-radius: var(--radius-sm);
-  color: var(--color-text-muted);
-  font-weight: var(--fw-medium);
-  transition: color var(--dur-fast) var(--ease), background-color var(--dur-fast) var(--ease);
-}
-
-.nav__link:hover {
-  color: var(--color-primary);
-  background-color: var(--color-primary-soft);
-}
-
-.nav__link.is-current {
-  color: var(--color-primary);
-}
-
-.nav__actions {
-  display: flex;
-  align-items: center;
-  gap: var(--space-2);
-}
-
-/* ==========================================================================
-   07. 섹션 공통
-   ========================================================================== */
-.section {
-  padding-block: var(--space-7);
-  /* 고정 헤더에 제목이 가리지 않도록 앵커 이동 시 위쪽 여백을 확보 */
-  scroll-margin-top: calc(var(--header-h) + var(--space-3));
-}
-
-.section--alt {
-  background-color: var(--color-surface-2);
-  transition: background-color var(--dur-base) var(--ease);
-}
-
-.section__eyebrow {
-  margin-bottom: var(--space-2);
-  color: var(--color-primary);
-  font-size: var(--fs-200);
-  font-weight: var(--fw-bold);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.section__title {
-  margin-bottom: var(--space-4);
-  font-size: var(--fs-600);
-  line-height: var(--lh-tight);
-  letter-spacing: -0.02em;
-}
-
-.section__lead {
-  max-width: 60ch;
-  margin-bottom: var(--space-6);
-  color: var(--color-text-muted);
-}
-
-.section__note {
+.nav-menu.active {
   display: block;
-  margin-top: var(--space-1);
-  font-size: var(--fs-200);
 }
 
-/* ==========================================================================
-   08. Hero
-   ========================================================================== */
+.nav-menu a {
+  display: block;
+  padding: var(--space-s) 0;
+  color: var(--color-text);
+}
+
+.nav-menu a:hover {
+  color: var(--color-primary);
+}
+
+#theme-toggle {
+  margin-left: auto;
+}
+
+/* Hero */
 .hero {
+  min-height: 100vh;
   display: flex;
   align-items: center;
-  min-height: 100vh;
-  min-height: 100svh;
-  padding-top: calc(var(--header-h) + var(--space-6));
-  background-image: radial-gradient(circle at 15% 20%, var(--color-primary-soft), transparent 55%);
-}
-
-.hero__eyebrow {
-  margin-bottom: var(--space-3);
-  color: var(--color-accent);
-  font-family: var(--font-mono);
-  font-size: var(--fs-200);
-  letter-spacing: 0.06em;
-}
-
-.hero__title {
-  margin-bottom: var(--space-4);
-  font-size: var(--fs-700);
-  line-height: var(--lh-tight);
-  letter-spacing: -0.03em;
-}
-
-.hero__name {
-  color: var(--color-primary);
-}
-
-.hero__tagline {
-  min-height: 1.8em;
-  margin-bottom: var(--space-3);
-  font-size: var(--fs-400);
-  font-weight: var(--fw-medium);
-}
-
-/* 타이핑 효과의 커서 (보너스 과제) */
-.typing.is-typing::after {
-  content: "|";
-  margin-left: 2px;
-  color: var(--color-primary);
-  animation: caret-blink 900ms steps(2, start) infinite;
-}
-
-@keyframes caret-blink {
-  to {
-    visibility: hidden;
-  }
-}
-
-.hero__desc {
-  max-width: 48ch;
-  margin-bottom: var(--space-6);
-  color: var(--color-text-muted);
-}
-
-.hero__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-3);
-}
-
-/* ==========================================================================
-   09. About — 모바일 1열, 태블릿 이상 2열 (Grid: 2차원 배치)
-   ========================================================================== */
-.about {
-  display: grid;
-  gap: var(--space-6);
-}
-
-.about__figure {
-  margin: 0;
   text-align: center;
 }
 
-.about__photo {
-  width: min(260px, 70%);
-  aspect-ratio: 1 / 1;
-  margin-inline: auto;
-  border-radius: var(--radius-lg);
-  border: 1px solid var(--color-border);
-  background-color: var(--color-surface);
-  box-shadow: var(--shadow-card);
-  object-fit: cover;
-  transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
+.hero .container {
+  width: 100%;
 }
 
-.about__photo:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: var(--space-m);
 }
 
-.about__caption {
-  margin-top: var(--space-3);
-  color: var(--color-text-muted);
-  font-size: var(--fs-200);
+.hero p {
+  color: var(--color-muted);
+  margin-bottom: var(--space-l);
 }
 
-.about__body > p + p {
-  margin-top: var(--space-4);
-}
-
-.about__facts {
-  display: grid;
-  gap: var(--space-2);
-  margin-top: var(--space-5);
-  padding-top: var(--space-5);
-  border-top: 1px solid var(--color-border);
-}
-
-.about__fact {
+.hero-buttons {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2) var(--space-4);
+  justify-content: center;
+  gap: var(--space-m);
 }
 
-.about__fact-key {
-  min-width: 7rem;
-  color: var(--color-text-muted);
-  font-size: var(--fs-200);
-  font-weight: var(--fw-bold);
-}
-
-/* ==========================================================================
-   10. Skills
-   ========================================================================== */
-.skills {
-  display: grid;
-  gap: var(--space-5);
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-}
-
-.skills__group {
-  padding: var(--space-5);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-  transition: transform var(--dur-base) var(--ease), box-shadow var(--dur-base) var(--ease);
-}
-
-.skills__group:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
-}
-
-.skills__group-title {
-  margin-bottom: var(--space-4);
-  font-size: var(--fs-400);
-}
-
-.skills__list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-}
-
-.skill {
-  padding: var(--space-1) var(--space-3);
-  background-color: var(--color-primary-soft);
-  color: var(--color-primary-strong);
-  border-radius: var(--radius-pill);
-  font-size: var(--fs-200);
-  font-weight: var(--fw-medium);
-}
-
-/* ==========================================================================
-   11. Projects — CSS Grid (auto-fit + minmax 로 카드 수가 화면 폭에 맞춰짐)
-   ========================================================================== */
-.projects__filter {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-2);
-  margin-bottom: var(--space-5);
-}
-
-.projects__filter:empty {
-  display: none;
-}
-
-.filter-btn {
-  min-height: 36px;
-  padding: var(--space-1) var(--space-4);
-  background-color: var(--color-surface);
-  color: var(--color-text-muted);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-pill);
-  font-size: var(--fs-200);
-  font-weight: var(--fw-medium);
-  transition: background-color var(--dur-fast) var(--ease),
-    color var(--dur-fast) var(--ease),
-    border-color var(--dur-fast) var(--ease);
-}
-
-.filter-btn:hover {
-  border-color: var(--color-primary);
-  color: var(--color-primary);
-}
-
-.filter-btn[aria-pressed="true"] {
-  background-color: var(--color-primary);
-  border-color: var(--color-primary);
-  color: var(--color-on-primary);
-}
-
-.projects__status:empty {
-  display: none;
-}
-
-.projects__grid {
-  display: grid;
-  gap: var(--space-5);
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-}
-
-.projects__grid:empty {
-  display: none;
-}
-
-/* --- 카드 --- */
-.card {
+/* About */
+.about {
   display: flex;
   flex-direction: column;
-  gap: var(--space-3);
-  padding: var(--space-5);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-  transition: transform var(--dur-base) var(--ease),
-    box-shadow var(--dur-base) var(--ease),
-    border-color var(--dur-base) var(--ease);
+  align-items: center;
+  gap: var(--space-l);
+}
+
+.about img {
+  width: 200px;
+  border-radius: 50%;
+}
+
+/* Skills */
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-s);
+}
+
+.skills li {
+  padding: var(--space-s) var(--space-m);
+  border-radius: 999px;
+  background: var(--color-bg);
+  box-shadow: var(--shadow);
+}
+
+/* Projects (Grid) */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-m);
+}
+
+.card {
+  padding: var(--space-m);
+  border-radius: 12px;
+  background: var(--color-bg);
+  box-shadow: var(--shadow);
+  transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  border-color: var(--color-primary);
-  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
 }
 
-.card__title {
-  font-size: var(--fs-400);
-  line-height: var(--lh-tight);
-  word-break: break-word;
+.card p {
+  color: var(--color-muted);
 }
 
-.card__link {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  color: var(--color-text);
-  transition: color var(--dur-fast) var(--ease);
-}
-
-.card__link:hover {
-  color: var(--color-primary);
-}
-
-.card__desc {
-  flex: 1 1 auto;
-  color: var(--color-text-muted);
-  font-size: var(--fs-200);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.card__topics {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--space-1);
-}
-
-.card__topic {
-  padding: 0 var(--space-2);
-  background-color: var(--color-surface-2);
-  color: var(--color-text-muted);
-  border-radius: var(--radius-sm);
-  font-size: var(--fs-100);
-}
-
-.card__meta {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-2) var(--space-4);
-  padding-top: var(--space-3);
-  border-top: 1px solid var(--color-border);
-  color: var(--color-text-muted);
-  font-size: var(--fs-100);
-}
-
-.card__meta-item {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-1);
-}
-
-.card__meta-item .icon {
-  width: 1em;
-  height: 1em;
-}
-
-.card__lang-dot {
-  display: inline-block;
-  width: 9px;
-  height: 9px;
-  border-radius: 50%;
-  background-color: var(--color-accent);
-}
-
-/* --- 상태 UI (로딩 / 에러 / 빈 상태) --- */
-.state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: var(--space-3);
-  padding: var(--space-7) var(--space-4);
-  background-color: var(--color-surface);
-  border: 1px dashed var(--color-border);
-  border-radius: var(--radius-md);
-  text-align: center;
-  color: var(--color-text-muted);
-}
-
-.state__title {
-  color: var(--color-text);
-  font-size: var(--fs-400);
-}
-
-.state__desc {
-  max-width: 44ch;
-  font-size: var(--fs-200);
-}
-
-.state--error {
-  border-style: solid;
-  border-color: var(--color-danger);
-  background-color: var(--color-danger-soft);
-}
-
-.state--error .state__icon {
-  color: var(--color-danger);
-}
-
-.state__icon {
-  width: 2.5rem;
-  height: 2.5rem;
-  color: var(--color-text-muted);
-}
-
-.spinner {
-  width: 2.25rem;
-  height: 2.25rem;
-  border: 3px solid var(--color-border);
-  border-top-color: var(--color-primary);
-  border-radius: 50%;
-  animation: spin 800ms linear infinite;
-}
-
-@keyframes spin {
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* ==========================================================================
-   12. Contact 폼
-   ========================================================================== */
+/* Contact 폼 */
 .form {
-  display: grid;
-  gap: var(--space-5);
-  padding: var(--space-5);
-  background-color: var(--color-surface);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  box-shadow: var(--shadow-card);
-}
-
-.field {
-  display: grid;
-  gap: var(--space-2);
-}
-
-.field__label {
-  font-size: var(--fs-200);
-  font-weight: var(--fw-bold);
-}
-
-.field__required {
-  color: var(--color-danger);
-}
-
-.field__input {
-  width: 100%;
-  min-height: var(--tap-min);
-  padding: var(--space-3) var(--space-4);
-  background-color: var(--color-bg);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-sm);
-  transition: border-color var(--dur-fast) var(--ease), box-shadow var(--dur-fast) var(--ease);
-}
-
-.field__input::placeholder {
-  color: var(--color-text-muted);
-  opacity: 0.7;
-}
-
-.field__input:hover {
-  border-color: var(--color-primary);
-}
-
-.field__input:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-primary-soft);
-}
-
-.field__input--textarea {
-  min-height: 140px;
-  resize: vertical;
-}
-
-.field__input[aria-invalid="true"],
-.field__input.is-invalid {
-  border-color: var(--color-danger);
-}
-
-.field__input[aria-invalid="true"]:focus {
-  box-shadow: 0 0 0 3px var(--color-danger-soft);
-}
-
-/* 에러 메시지는 해당 입력 필드 바로 아래에 표시된다 */
-.field__error {
-  min-height: 1.25em;
-  color: var(--color-danger);
-  font-size: var(--fs-200);
-  line-height: 1.25;
-}
-
-.field__error:empty {
-  min-height: 0;
-}
-
-.form__footer {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: var(--space-4);
-}
-
-.form__success {
-  color: var(--color-success);
-  font-size: var(--fs-200);
-  font-weight: var(--fw-medium);
-}
-
-.form__success:not(:empty) {
-  padding: var(--space-2) var(--space-4);
-  background-color: var(--color-success-soft);
-  border-radius: var(--radius-pill);
-}
-
-/* ==========================================================================
-   13. Footer
-   ========================================================================== */
-.footer {
-  padding-block: var(--space-6);
-  background-color: var(--color-surface);
-  border-top: 1px solid var(--color-border);
-}
-
-.footer__inner {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: var(--space-4);
-  text-align: center;
+  max-width: 600px;
 }
 
-.footer__copy {
-  color: var(--color-text-muted);
-  font-size: var(--fs-200);
+.form input,
+.form textarea {
+  padding: var(--space-s);
+  border: 1px solid var(--color-muted);
+  border-radius: 8px;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font: inherit;
 }
 
-.footer__socials {
+.form input.invalid,
+.form textarea.invalid {
+  border-color: var(--color-error);
+}
+
+.error {
+  min-height: 1.5rem;
+  font-size: 0.875rem;
+  color: var(--color-error);
+}
+
+.success {
+  margin-top: var(--space-m);
+  color: var(--color-success);
+}
+
+/* Footer */
+.footer {
+  padding: var(--space-l) 0;
+}
+
+.footer .container {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--space-2);
+  justify-content: space-between;
 }
 
-.footer__social {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  min-height: var(--tap-min);
-  padding: var(--space-2) var(--space-4);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-pill);
-  color: var(--color-text-muted);
-  font-size: var(--fs-200);
-  font-weight: var(--fw-medium);
-  transition: color var(--dur-fast) var(--ease),
-    border-color var(--dur-fast) var(--ease),
-    background-color var(--dur-fast) var(--ease);
-}
-
-.footer__social:hover {
-  color: var(--color-primary);
-  border-color: var(--color-primary);
-  background-color: var(--color-primary-soft);
-}
-
-/* ==========================================================================
-   14. 스크롤 탑 버튼 — 300px 이상에서 .is-visible 이 붙는다
-   ========================================================================== */
+/* 스크롤 탑 버튼 */
 .scroll-top {
   position: fixed;
-  right: var(--space-4);
-  bottom: var(--space-4);
-  z-index: 90;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: var(--tap-min);
-  height: var(--tap-min);
-  padding: 0;
-  background-color: var(--color-primary);
-  color: var(--color-on-primary);
+  right: var(--space-m);
+  bottom: var(--space-m);
+  width: 44px;
+  height: 44px;
   border: none;
   border-radius: 50%;
-  box-shadow: var(--shadow-card);
+  background: var(--color-primary);
+  color: #ffffff;
+  font-size: 1.25rem;
+  cursor: pointer;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(12px);
-  transition: opacity var(--dur-base) var(--ease),
-    visibility var(--dur-base) var(--ease),
-    transform var(--dur-base) var(--ease),
-    background-color var(--dur-base) var(--ease);
+  transition: opacity 0.3s, visibility 0.3s;
 }
 
-.scroll-top.is-visible {
+.scroll-top.visible {
   opacity: 1;
   visibility: visible;
-  transform: translateY(0);
 }
 
-.scroll-top:hover {
-  background-color: var(--color-primary-strong);
-}
-
-/* ==========================================================================
-   15. 스크롤 등장 애니메이션
-   .reveal 의 "숨김" 초기값은 reveal.js 가 <html> 에 .reveal-ready 를 붙인 뒤에만
-   적용된다. JS 가 비활성/실패해도 내용이 사라지지 않게 하기 위한 안전장치다.
-   ========================================================================== */
-.reveal-ready .reveal {
+/* 스크롤 애니메이션 */
+.reveal {
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity var(--dur-slow) var(--ease), transform var(--dur-slow) var(--ease);
-  will-change: opacity, transform;
+  transform: translateY(30px);
+  transition: opacity 0.6s, transform 0.6s;
 }
 
-.reveal-ready .reveal.is-visible {
+.reveal.visible {
   opacity: 1;
-  transform: translateY(0);
-  will-change: auto;
+  transform: none;
 }
 
-/* ==========================================================================
-   16. 반응형 — 768px 이상 (태블릿)
-   모바일 퍼스트: 여기까지의 모든 규칙이 모바일 기본값이고,
-   min-width 미디어 쿼리로 넓은 화면을 "덧칠"한다.
-   ========================================================================== */
+/* 태블릿 */
 @media (min-width: 768px) {
-  :root {
-    --header-h: 68px;
+  .nav-menu,
+  .nav-menu.active {
+    display: flex;
+    gap: var(--space-l);
+    position: static;
+    width: auto;
+    padding: 0;
+    margin-left: auto;
+    background: none;
+    box-shadow: none;
   }
 
-  .container {
-    padding-inline: var(--space-6);
+  #theme-toggle {
+    margin-left: 0;
   }
 
-  .section {
-    padding-block: var(--space-8);
-  }
-
-  .section__title {
-    font-size: var(--fs-700);
-  }
-
-  /* 네비게이션: 햄버거를 숨기고 메뉴를 가로로 펼친다 */
-  .nav__toggle {
+  .nav-toggle {
     display: none;
   }
 
-  .nav__list,
-  .nav.active .nav__list {
-    position: static;
-    display: flex;
-    flex-direction: row;
-    gap: var(--space-1);
-    margin-left: auto;
-    margin-right: var(--space-3);
-    padding: 0;
-    background-color: transparent;
-    border: none;
-    border-radius: 0;
-    box-shadow: none;
-    animation: none;
+  .hero h1 {
+    font-size: 3rem;
   }
 
-  .header:has(.nav.active) {
-    background-color: transparent;
-    backdrop-filter: none;
-    border-bottom-color: transparent;
-  }
-
-  .header.is-scrolled:has(.nav.active) {
-    background-color: var(--color-header-bg);
-    backdrop-filter: blur(12px);
-    border-bottom-color: var(--color-border);
-  }
-
-  /* 위와 같은 이유의 backdrop-filter 폴백 (이 선택자가 더 구체적이라 따로 한 번 더 둔다) */
-  @supports not (backdrop-filter: blur(1px)) {
-    .header.is-scrolled:has(.nav.active) {
-      background-color: var(--color-bg);
-    }
-  }
-
-  .hero__title {
-    font-size: var(--fs-800);
-  }
-
-  .hero__tagline {
-    font-size: var(--fs-500);
-  }
-
-  /* About: 사진 + 본문 2열 (Grid 로 2차원 배치) */
   .about {
-    grid-template-columns: minmax(200px, 300px) 1fr;
-    align-items: start;
-    gap: var(--space-7);
-  }
-
-  .about__photo {
-    width: 100%;
-  }
-
-  .form {
-    padding: var(--space-6);
-  }
-
-  .footer__inner {
     flex-direction: row;
-    justify-content: space-between;
-    text-align: left;
-  }
-
-  .scroll-top {
-    right: var(--space-6);
-    bottom: var(--space-6);
   }
 }
 
-/* ==========================================================================
-   17. 반응형 — 1024px 이상 (데스크톱)
-   ========================================================================== */
+/* 데스크톱 */
 @media (min-width: 1024px) {
-  :root {
-    --fs-700: 2.75rem;
-    --fs-800: 3.5rem;
+  .hero h1 {
+    font-size: 3.5rem;
   }
 
-  .section {
-    padding-block: calc(var(--space-8) + var(--space-5));
-  }
-
-  .hero__desc {
-    font-size: var(--fs-400);
-  }
-
-  .about {
-    grid-template-columns: 320px 1fr;
-    gap: var(--space-8);
-  }
-
-  .projects__grid {
-    gap: var(--space-6);
-  }
-}
-
-/* ==========================================================================
-   18. 모션 최소화 환경 대응 (OS 의 "동작 줄이기" 설정)
-   ========================================================================== */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
-
-  .reveal-ready .reveal {
-    opacity: 1;
-    transform: none;
+  .about img {
+    width: 280px;
   }
 }
