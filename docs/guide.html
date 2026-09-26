@@ -1,0 +1,1875 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>B1-1 포트폴리오 해설</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+:root {
+  --bg: #F4F5FA;
+  --surface: #FFFFFF;
+  --surface-2: #ECEEF6;
+  --ink: #171A26;
+  --muted: #596076;
+  --line: #D9DCE8;
+  --accent: #3D5AFE;
+  --accent-ink: #FFFFFF;
+  --accent-soft: #E4E9FF;
+  --ok: #0C7D55;
+  --ok-soft: #DCF2E9;
+  --err: #C22643;
+  --err-soft: #FBE2E7;
+  --warn: #9A5B06;
+  --warn-soft: #FAEDD5;
+  --idle: #646B7D;
+  --idle-soft: #E9EBF1;
+  --code-bg: #191D2B;
+  --code-ink: #DCE1F0;
+  --code-dim: #6F7690;
+  --code-hl: #2C3872;
+  --code-visited: #20263C;
+  --sans: "IBM Plex Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  --mono: "JetBrains Mono", Consolas, "D2Coding", monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --bg: #0E1119;
+    --surface: #161A25;
+    --surface-2: #1E2331;
+    --ink: #E5E8F1;
+    --muted: #9EA5B9;
+    --line: #2A3042;
+    --accent: #8EA2FF;
+    --accent-ink: #0E1119;
+    --accent-soft: #222A4C;
+    --ok: #4FD1A1;
+    --ok-soft: #15302A;
+    --err: #FF7B8F;
+    --err-soft: #3A1B24;
+    --warn: #F0B45A;
+    --warn-soft: #362914;
+    --idle: #A0A7B8;
+    --idle-soft: #232836;
+    --code-bg: #0A0D14;
+    --code-hl: #26315F;
+    --code-visited: #161B2B;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --bg: #0E1119;
+  --surface: #161A25;
+  --surface-2: #1E2331;
+  --ink: #E5E8F1;
+  --muted: #9EA5B9;
+  --line: #2A3042;
+  --accent: #8EA2FF;
+  --accent-ink: #0E1119;
+  --accent-soft: #222A4C;
+  --ok: #4FD1A1;
+  --ok-soft: #15302A;
+  --err: #FF7B8F;
+  --err-soft: #3A1B24;
+  --warn: #F0B45A;
+  --warn-soft: #362914;
+  --idle: #A0A7B8;
+  --idle-soft: #232836;
+  --code-bg: #0A0D14;
+  --code-hl: #26315F;
+  --code-visited: #161B2B;
+}
+
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.7;
+  padding-inline: 16px;
+  padding-block: 0 80px;
+}
+h1, h2, h3, h4 { line-height: 1.3; text-wrap: balance; margin: 0; }
+p { margin: 0; }
+code, .mono { font-family: var(--mono); font-size: 0.88em; }
+:not(pre) > code {
+  background: var(--surface-2);
+  padding: 1px 5px;
+  border-radius: 4px;
+}
+a { color: var(--accent); }
+button { font: inherit; color: inherit; }
+button:focus-visible, input:focus-visible, textarea:focus-visible, a:focus-visible, summary:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* 레이아웃 */
+.layout {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  column-gap: 48px;
+}
+.toc {
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 20;
+  background: var(--bg);
+  margin-inline: -16px;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+}
+.toc ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 6px; white-space: nowrap; }
+.toc a {
+  display: block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 14px;
+}
+.toc a .g { font-family: var(--mono); font-size: 11px; color: var(--accent); margin-right: 6px; }
+.toc a.on { background: var(--accent-soft); color: var(--ink); }
+@media (min-width: 1060px) {
+  .layout { grid-template-columns: 200px minmax(0, 1fr); }
+  .toc {
+    top: calc(env(safe-area-inset-top, 0px) + 28px);
+    align-self: start;
+    margin: 28px 0 0;
+    padding: 0;
+    border: none;
+    overflow: visible;
+  }
+  .toc ul { flex-direction: column; white-space: normal; }
+  .toc a { border-radius: 8px; }
+}
+main { min-width: 0; max-width: 900px; }
+
+/* 머리 */
+.top { padding-block: 48px 40px; display: grid; gap: 20px; }
+.kicker { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.top h1 { font-size: clamp(30px, 5vw, 44px); font-weight: 700; letter-spacing: -0.01em; }
+.links { display: flex; flex-wrap: wrap; gap: 8px 20px; font-size: 14px; }
+.links span { color: var(--muted); margin-right: 6px; }
+
+/* 섹션 */
+.sec { padding-block: 56px 8px; border-top: 1px solid var(--line); scroll-margin-top: 64px; display: grid; gap: 22px; }
+.sec > header { display: grid; gap: 8px; }
+.eyebrow { font-family: var(--mono); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); }
+.sec h2 { font-size: clamp(24px, 3.4vw, 30px); font-weight: 700; }
+.sec h3 { font-size: 19px; font-weight: 700; margin-top: 12px; }
+.lead { color: var(--muted); max-width: 64ch; }
+.prose { max-width: 66ch; display: grid; gap: 10px; }
+
+.say {
+  background: var(--accent-soft);
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: grid;
+  gap: 6px;
+}
+.say b.lbl { font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; color: var(--accent); font-weight: 600; }
+.say p { max-width: 70ch; }
+
+.panel { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
+.hint { font-size: 13px; color: var(--muted); }
+.row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.grid2 { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 760px) { .grid2 { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.sim { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 800px) { .sim { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); } }
+
+.btn {
+  border: 1px solid var(--accent);
+  background: var(--accent);
+  color: var(--accent-ink);
+  border-radius: 8px;
+  padding: 7px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.btn.ghost { background: transparent; color: var(--accent); }
+.btn:disabled { opacity: 0.5; cursor: default; }
+.seg { display: inline-flex; flex-wrap: wrap; border: 1px solid var(--line); border-radius: 9px; padding: 3px; gap: 3px; background: var(--surface); }
+.seg button { border: none; background: none; padding: 5px 11px; border-radius: 6px; cursor: pointer; font-size: 13.5px; color: var(--muted); }
+.seg button[aria-pressed="true"] { background: var(--accent); color: var(--accent-ink); }
+
+.pill { display: inline-block; font-family: var(--mono); font-size: 12px; padding: 2px 9px; border-radius: 999px; background: var(--idle-soft); color: var(--idle); font-weight: 600; }
+.pill.loading { background: var(--warn-soft); color: var(--warn); }
+.pill.success { background: var(--ok-soft); color: var(--ok); }
+.pill.error { background: var(--err-soft); color: var(--err); }
+.pill.empty { background: var(--idle-soft); color: var(--idle); }
+.pill.on { background: var(--accent-soft); color: var(--accent); }
+
+/* 표 */
+.tbl-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 14.5px; }
+th, td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { font-size: 12.5px; color: var(--muted); font-weight: 500; background: var(--surface-2); }
+tr:last-child td { border-bottom: none; }
+td.loc { font-family: var(--mono); font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+
+/* 코드 */
+.code {
+  margin: 0;
+  background: var(--code-bg);
+  color: var(--code-ink);
+  border-radius: 12px;
+  padding: 12px 0;
+  overflow-x: auto;
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.7;
+}
+.code .cap { display: block; padding: 0 16px 8px; color: var(--code-dim); font-size: 12px; }
+.ln { display: grid; grid-template-columns: 48px max-content auto; column-gap: 12px; padding-right: 14px; white-space: pre; transition: background 0.2s; }
+.ln .n { color: var(--code-dim); text-align: right; user-select: none; }
+.ln .t { justify-self: start; opacity: 0; font-size: 11px; padding: 0 7px; border-radius: 4px; align-self: center; line-height: 1.6; white-space: nowrap; }
+.ln.visited { background: var(--code-visited); }
+.ln.hl { background: var(--code-hl); }
+.ln.hl .n, .ln.visited .n { color: #C9D1F5; }
+.ln.hl .t, .ln.visited .t { opacity: 1; }
+.ln.visited .t { opacity: 0.6; }
+.t.ev { background: #F0B45A; color: #231800; }
+.t.st { background: #8EA2FF; color: #0B1030; }
+.t.rd { background: #4FD1A1; color: #032519; }
+.t.ot { background: #C2C8DA; color: #191D2B; }
+.t.er { background: #FF7B8F; color: #2A0610; }
+.tk-k { color: #C792EA; }
+.tk-s { color: #C3E88D; }
+.tk-c { color: #7C849E; font-style: italic; }
+.tk-d { color: #F78C6C; }
+.tk-tag { color: #82AAFF; }
+.tk-attr { color: #FFCB6B; }
+
+/* 흐름 칩 */
+.flow { display: flex; flex-wrap: wrap; align-items: stretch; gap: 8px; }
+.flow .node { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 10px 14px; display: grid; gap: 2px; min-width: 0; }
+.flow .node b { font-size: 14px; }
+.flow .node small { color: var(--muted); font-size: 12.5px; font-family: var(--mono); }
+.flow .arrow { align-self: center; color: var(--muted); font-size: 18px; }
+.node.ev { border-color: #F0B45A; }
+.node.st { border-color: var(--accent); }
+.node.rd { border-color: var(--ok); }
+
+/* 1. 시맨틱 와이어프레임 */
+.wire-wrap { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 800px) { .wire-wrap { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+.wire { display: grid; gap: 8px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+.wb {
+  border: 1.5px solid var(--line);
+  background: var(--surface-2);
+  border-radius: 8px;
+  padding: 8px 10px;
+  text-align: left;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  align-items: center;
+  font-size: 13.5px;
+}
+.wb .tag { font-family: var(--mono); font-weight: 600; color: var(--accent); }
+.wb .what { color: var(--muted); font-size: 12.5px; }
+.wb[aria-pressed="true"] { border-color: var(--accent); background: var(--accent-soft); }
+.wbox { border: 1.5px dashed var(--line); border-radius: 10px; padding: 8px; display: grid; gap: 6px; }
+.wbox > .wb { border-style: solid; }
+.wire.divmode .wb .tag { color: var(--muted); }
+.wcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+.wcards .wb { justify-content: center; }
+.landmarks { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 13px; }
+.info { display: grid; gap: 10px; align-content: start; }
+.info h4 { font-family: var(--mono); font-size: 17px; color: var(--accent); }
+.info dl { margin: 0; display: grid; gap: 8px; }
+.info dt { font-size: 12px; color: var(--muted); }
+.info dd { margin: 0; }
+
+/* 2. 레이아웃 시뮬레이터 */
+.ls-controls { display: grid; gap: 12px; }
+.ls-controls input[type="range"] { width: 100%; accent-color: var(--accent); }
+.ls-w { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+.ls-w output { font-family: var(--mono); font-size: 20px; font-weight: 600; }
+.bp { display: flex; gap: 6px; flex-wrap: wrap; }
+.ls-stage { position: relative; overflow: hidden; border-radius: 12px; border: 1px solid var(--line); background: repeating-linear-gradient(45deg, var(--surface-2) 0 8px, var(--bg) 8px 16px); }
+.mini {
+  container-type: inline-size;
+  transform-origin: top left;
+  background: #FFFFFF;
+  color: #1B1D29;
+  font-family: "Segoe UI", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+.m-nav { display: flex; align-items: center; gap: 16px; height: 56px; padding: 0 16px; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.m-logo { font-weight: 700; font-size: 18px; }
+.m-menu { display: none; list-style: none; margin: 0; position: absolute; top: 56px; left: 0; width: 100%; padding: 12px 16px; background: #FFFFFF; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 2; }
+.m-menu.active { display: block; }
+.m-menu li { padding: 4px 0; }
+.m-icon { border: none; background: none; font-size: 18px; cursor: pointer; padding: 0; line-height: 1; }
+.m-theme { margin-left: auto; }
+.m-sec { padding: 20px 16px; }
+.m-sec:nth-child(odd) { background: #F3F4F8; }
+.m-sec h5 { margin: 0 0 10px; font-size: 16px; }
+.m-about { display: flex; flex-direction: column; align-items: center; gap: 16px; }
+.m-avatar { width: 110px; height: 110px; border-radius: 50%; background: linear-gradient(135deg, #3D5AFE, #8EA2FF); flex: none; }
+.m-skills { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.m-skills li { padding: 4px 12px; border-radius: 999px; background: #FFFFFF; box-shadow: 0 2px 6px rgba(0,0,0,0.12); font-size: 13px; }
+.m-grid { gap: 16px; }
+.m-grid.fit { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.m-grid.fill { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.m-grid.flex { display: flex; flex-wrap: wrap; }
+.m-grid.flex .m-card { flex: 1 1 260px; }
+.m-card { padding: 14px; border-radius: 12px; background: #FFFFFF; box-shadow: 0 4px 12px rgba(0,0,0,0.1); font-size: 13.5px; }
+.m-card b { color: #3D5AFE; }
+.m-card p { color: #5F6475; margin: 0; }
+.mini.outline .m-nav > * { outline: 2px dashed #E91E63; outline-offset: 2px; }
+.mini.outline .m-skills > li { outline: 2px dashed #E91E63; }
+.mini.outline .m-grid { outline: 2px dashed #00897B; outline-offset: 4px; }
+.mini.outline .m-card { outline: 2px dashed #E91E63; }
+.mini.outline .m-about > * { outline: 2px dashed #E91E63; }
+@container (min-width: 768px) {
+  .m-menu, .m-menu.active { display: flex; gap: 22px; position: static; width: auto; padding: 0; margin-left: auto; background: none; box-shadow: none; }
+  .m-menu li { padding: 0; }
+  .m-theme { margin-left: 0; }
+  .m-burger { display: none; }
+  .m-about { flex-direction: row; }
+}
+@container (min-width: 1024px) {
+  .m-avatar { width: 150px; height: 150px; }
+}
+.ls-read { display: flex; flex-wrap: wrap; gap: 8px 16px; font-size: 14px; align-items: center; }
+
+/* 3. 스크립트 타임라인 */
+.tl { display: grid; gap: 14px; }
+.tl-row { display: grid; gap: 6px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 700px) { .tl-row { grid-template-columns: 170px minmax(0, 1fr); align-items: center; } }
+.tl-label { font-family: var(--mono); font-size: 13px; }
+.tl-label small { display: block; font-family: var(--sans); color: var(--muted); font-size: 12px; }
+.tl-track { position: relative; height: 58px; background: var(--surface-2); border-radius: 8px; }
+.seg-b { position: absolute; height: 18px; border-radius: 4px; }
+.seg-b.parse { top: 8px; background: var(--ok); }
+.seg-b.pause { top: 8px; background: repeating-linear-gradient(135deg, var(--err) 0 3px, transparent 3px 7px); opacity: 0.8; }
+.seg-b.dl { top: 32px; background: var(--accent); }
+.seg-b.ex { top: 32px; background: #F0A030; }
+.dcl { position: absolute; top: 2px; bottom: 2px; width: 2px; background: var(--ink); }
+.dcl::after { content: "DCL"; position: absolute; top: -2px; left: 5px; font-family: var(--mono); font-size: 10px; color: var(--muted); }
+.tl-note { font-size: 13px; color: var(--muted); grid-column: -2 / -1; }
+.tl-note.bad { color: var(--err); }
+.tl-note.good { color: var(--ok); }
+.legend { display: flex; flex-wrap: wrap; gap: 6px 16px; font-size: 13px; color: var(--muted); }
+.legend i { display: inline-block; width: 14px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: middle; }
+
+/* 버블링 데모 */
+.bub { border: 2px solid var(--line); border-radius: 12px; padding: 14px; display: grid; gap: 10px; position: relative; transition: border-color 0.2s, box-shadow 0.2s; }
+.bub .ftag { position: absolute; top: -10px; left: 12px; background: var(--surface); padding: 0 6px; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.bub.flash { border-color: var(--accent); box-shadow: 0 0 0 4px var(--accent-soft); }
+.bub input { transition: box-shadow 0.2s; }
+.bub input.flash { box-shadow: 0 0 0 3px #F0B45A; }
+.field { display: grid; gap: 4px; }
+.field label { font-size: 13px; color: var(--muted); }
+.field input, .field textarea {
+  font: inherit;
+  font-size: 14px;
+  padding: 7px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  color: var(--ink);
+}
+.field input.invalid, .field textarea.invalid { border-color: var(--err); }
+.field .error { min-height: 1.3em; font-size: 12.5px; color: var(--err); }
+.log { font-family: var(--mono); font-size: 12.5px; background: var(--surface-2); border-radius: 8px; padding: 10px 12px; min-height: 64px; display: grid; gap: 2px; align-content: start; }
+.log div { overflow-wrap: anywhere; }
+.log .old { color: var(--muted); }
+
+/* 4. 파이프라인 */
+.pipe { display: grid; gap: 10px; grid-template-columns: minmax(0, 1fr); }
+@media (min-width: 860px) { .pipe { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+.stage { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 12px; display: grid; gap: 8px; align-content: start; }
+.stage h4 { font-size: 13px; font-family: var(--mono); color: var(--accent); }
+.stage .cap { font-size: 12.5px; color: var(--muted); }
+.item { font-family: var(--mono); font-size: 12px; background: var(--surface-2); border-radius: 6px; padding: 5px 8px; overflow-wrap: anywhere; }
+.item.drop { text-decoration: line-through; opacity: 0.55; }
+.item.str { color: var(--ok); }
+.fields { display: flex; flex-wrap: wrap; gap: 5px; font-family: var(--mono); font-size: 12px; }
+.fields span { padding: 2px 7px; border-radius: 5px; background: var(--surface-2); color: var(--muted); }
+.fields span.pick { background: var(--accent); color: var(--accent-ink); font-weight: 600; }
+
+/* 5. fetch 시뮬레이터 · 미니 렌더 */
+.render { border: 1px solid var(--line); border-radius: 10px; padding: 14px; background: #FFFFFF; color: #1B1D29; min-height: 130px; display: grid; gap: 10px; align-content: start; font-family: "Segoe UI", "Malgun Gothic", sans-serif; font-size: 14px; }
+.render .r-h { font-weight: 700; font-size: 16px; }
+.render .r-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 8px; }
+.render .r-card { box-shadow: 0 3px 10px rgba(0,0,0,0.1); border-radius: 8px; padding: 8px 10px; font-size: 12.5px; }
+.render .r-card b { color: #3D5AFE; display: block; }
+.render .r-card p { color: #5F6475; }
+.render .r-btn { justify-self: start; border: 2px solid #3D5AFE; background: #3D5AFE; color: #fff; border-radius: 8px; padding: 4px 12px; cursor: pointer; font-size: 13px; }
+.spin { width: 18px; height: 18px; border: 3px solid #D6DBF5; border-top-color: #3D5AFE; border-radius: 50%; display: inline-block; vertical-align: middle; margin-right: 8px; animation: spin 0.8s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.statebox { display: grid; gap: 8px; }
+.kv { display: grid; grid-template-columns: max-content minmax(0, 1fr); gap: 6px 14px; font-size: 13.5px; align-items: center; }
+.kv dt { font-family: var(--mono); color: var(--muted); font-size: 12.5px; }
+.kv dd { margin: 0; font-family: var(--mono); font-size: 13px; overflow-wrap: anywhere; }
+.kv dd.flash { animation: flash 0.8s; }
+@keyframes flash { from { background: #F0B45A; color: #231800; } to { background: transparent; } }
+
+/* 6. 다크 모드 프리뷰 */
+.pv { border-radius: 10px; padding: 14px; background: #FFFFFF; color: #1B1D29; border: 1px solid #D9DCE8; display: grid; gap: 8px; transition: background 0.35s, color 0.35s; font-family: "Segoe UI", "Malgun Gothic", sans-serif; }
+.pv .pv-nav { display: flex; justify-content: space-between; font-weight: 700; }
+.pv .pv-card { background: #F3F4F8; border-radius: 8px; padding: 8px 10px; font-size: 13px; transition: background 0.35s; }
+.pv .pv-card b { color: #3D5AFE; transition: color 0.35s; }
+.pv.dark { background: #12151D; color: #E8EBF2; border-color: #2A3042; }
+.pv.dark .pv-card { background: #1C212C; }
+.pv.dark .pv-card b { color: #8EA2FF; }
+.cssvars { display: grid; gap: 6px; font-family: var(--mono); font-size: 12.5px; }
+.cssvars .v { display: grid; grid-template-columns: 130px 1fr 1fr; gap: 8px; align-items: center; }
+.sw { display: inline-flex; align-items: center; gap: 6px; }
+.sw i { width: 14px; height: 14px; border-radius: 3px; border: 1px solid var(--line); display: inline-block; }
+.sw.dim { opacity: 0.35; }
+
+.tabs { display: flex; flex-wrap: wrap; gap: 6px; }
+.tabs button { border: 1px solid var(--line); background: var(--surface); border-radius: 999px; padding: 6px 14px; cursor: pointer; font-size: 14px; }
+.tabs button[aria-selected="true"] { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+
+/* 7. 스크롤 데모 */
+.ss-wrap { position: relative; border: 1px solid var(--line); border-radius: 12px; overflow: hidden; }
+.ss { height: 340px; overflow-y: auto; background: #FFFFFF; color: #1B1D29; font-family: "Segoe UI", "Malgun Gothic", sans-serif; position: relative; }
+.ss-head { position: sticky; top: 0; height: 44px; margin-bottom: -44px; display: flex; align-items: center; gap: 14px; padding: 0 14px; z-index: 2; transition: background 0.3s, box-shadow 0.3s; font-size: 13px; }
+.ss-head.scrolled { background: #FFFFFF; box-shadow: 0 4px 12px rgba(0,0,0,0.12); }
+.ss-head b { margin-right: auto; font-size: 15px; }
+.ss-head a { color: #1B1D29; text-decoration: none; cursor: pointer; }
+.ss-hero { height: 300px; display: grid; place-items: center; background: linear-gradient(180deg, #E4E9FF, #FFFFFF); font-size: 20px; font-weight: 700; }
+.ss-sec { min-height: 240px; padding: 24px 16px; }
+.ss-sec:nth-of-type(even) { background: #F3F4F8; }
+.ss-box { padding: 16px; border-radius: 10px; background: #FFFFFF; box-shadow: 0 4px 12px rgba(0,0,0,0.1); opacity: 0; transform: translateY(30px); transition: opacity 0.6s, transform 0.6s; }
+.ss-box.visible { opacity: 1; transform: none; }
+.ss-top { position: absolute; right: 14px; bottom: 14px; width: 38px; height: 38px; border-radius: 50%; border: none; background: #3D5AFE; color: #fff; font-size: 17px; cursor: pointer; opacity: 0; visibility: hidden; transition: opacity 0.3s, visibility 0.3s; }
+.ss-top.visible { opacity: 1; visibility: visible; }
+.meter { position: relative; height: 34px; margin-top: 4px; }
+.meter .track { position: absolute; left: 0; right: 0; top: 14px; height: 6px; border-radius: 3px; background: var(--surface-2); }
+.meter .fill { position: absolute; left: 0; top: 14px; height: 6px; border-radius: 3px; background: var(--accent); width: 0; }
+.meter .mk { position: absolute; top: 6px; width: 2px; height: 22px; background: var(--ink); }
+.meter .mk span { position: absolute; top: -2px; left: 5px; font-family: var(--mono); font-size: 11px; color: var(--muted); white-space: nowrap; }
+
+/* Q&A */
+.qa { display: grid; gap: 8px; }
+.qa-item { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; }
+.qa-item > button { width: 100%; text-align: left; border: none; background: none; padding: 12px 16px; cursor: pointer; display: flex; gap: 12px; justify-content: space-between; align-items: center; font-weight: 500; }
+.qa-item > button::after { content: "답 보기"; font-size: 12px; color: var(--accent); white-space: nowrap; }
+.qa-item > button[aria-expanded="true"]::after { content: "접기"; }
+.qa-item .a { padding: 0 16px 14px; color: var(--ink); display: grid; gap: 8px; }
+.qa-item .a p { max-width: 70ch; }
+.qa-item .known { display: flex; gap: 6px; align-items: center; font-size: 12.5px; color: var(--muted); }
+
+/* 체크리스트 */
+.check { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.check li { background: var(--surface); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 4px 12px; align-items: start; }
+.check input { width: 18px; height: 18px; margin-top: 3px; accent-color: var(--accent); }
+.check li.done { opacity: 0.6; }
+.check .sub { grid-column: 2; font-size: 13.5px; color: var(--muted); }
+.check .sub ol { margin: 4px 0 0; padding-left: 18px; }
+
+.limits { display: grid; gap: 8px; margin: 0; padding: 0; list-style: none; }
+.limits li { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 10px; }
+.limits li::before { content: "—"; color: var(--muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+  .ss-box { opacity: 1; transform: none; }
+}
+</style>
+<style>body { margin: 0; } img { max-width: 100%; }</style>
+</head>
+<body>
+<div class="layout">
+  <nav class="toc" aria-label="목차">
+    <ul id="toc">
+      <li><a href="#overview">개요</a></li>
+      <li><a href="#semantic"><span class="g">목표1</span>시맨틱</a></li>
+      <li><a href="#layout"><span class="g">목표2</span>Flex · Grid</a></li>
+      <li><a href="#dom"><span class="g">목표3</span>DOM · 이벤트</a></li>
+      <li><a href="#es6"><span class="g">목표4</span>ES6 문법</a></li>
+      <li><a href="#fetch"><span class="g">목표5</span>fetch 상태</a></li>
+      <li><a href="#state"><span class="g">목표6</span>이벤트→상태→렌더</a></li>
+      <li><a href="#scroll">스크롤 인터랙션</a></li>
+      <li><a href="#qa">예상 질문</a></li>
+      <li><a href="#demo">시연 순서</a></li>
+      <li><a href="#reqs">요구사항 표</a></li>
+    </ul>
+  </nav>
+
+  <main>
+    <section class="top" id="overview">
+      <div class="kicker">Codyssey B1-1 · 평가 준비</div>
+      <h1>나를 소개하는 웹페이지, 코드로 설명하기</h1>
+      <div class="links">
+        <div><span>배포</span><a href="https://nansu0425.github.io/b1-1-portfolio/" target="_blank" rel="noopener">nansu0425.github.io/b1-1-portfolio</a></div>
+        <div><span>선행 학습</span><a href="primer.html">웹 기초 교재</a></div>
+        <div><span>저장소</span><a href="https://github.com/nansu0425/b1-1-portfolio" target="_blank" rel="noopener">github.com/nansu0425/b1-1-portfolio</a></div>
+      </div>
+      <div class="say">
+        <b class="lbl">30초 설명</b>
+        <p>외부 라이브러리 없이 HTML, CSS, JavaScript 만으로 만든 한 페이지짜리 반응형 포트폴리오입니다. Hero, About, Skills, Projects, Contact, Footer 섹션이 있고, Projects 는 GitHub API 에서 제 저장소 목록을 받아 카드로 그립니다. JavaScript 는 <code>js/main.js</code> 한 파일이고, 기능마다 <b>이벤트가 상태 변수를 바꾸고, 렌더 함수가 그 상태를 보고 화면을 바꾸는</b> 구조로 나눴습니다. 보너스 과제는 하지 않았습니다.</p>
+      </div>
+
+      <h3>파일 구성</h3>
+      <div class="flow">
+        <div class="node"><b>index.html</b><small>109줄 · 구조</small></div>
+        <div class="node"><b>css/style.css</b><small>362줄 · 모양</small></div>
+        <div class="node"><b>js/main.js</b><small>154줄 · 동작</small></div>
+        <div class="node"><b>images/</b><small>profile.svg · 스크린샷 3장</small></div>
+        <div class="node"><b>README.md</b><small>설명 · URL · 기준값</small></div>
+      </div>
+
+      <h3>js/main.js 한눈에 보기</h3>
+      <p class="hint">막대 폭은 줄 수에 비례합니다. 블록을 누르면 해당 설명 섹션으로 이동합니다.</p>
+      <div id="jsmap"></div>
+    </section>
+
+    <!-- 목표 1 -->
+    <section class="sec" id="semantic">
+      <header>
+        <div class="eyebrow">과제 목표 1 · HTML</div>
+        <h2>시맨틱 태그를 왜 쓰고, 구조를 어떻게 나눴나</h2>
+      </header>
+      <div class="say">
+        <b class="lbl">답변</b>
+        <p>태그 이름이 그 영역의 역할을 알려주기 때문입니다. <code>div</code> 는 의미가 없어서 스크린리더나 검색엔진이 어디가 메뉴이고 어디가 본문인지 구분할 수 없습니다. 저는 모든 페이지에 반복되는 공통 영역(<code>header</code>, <code>footer</code>)은 <code>main</code> 밖에, 이 페이지만의 내용은 <code>main</code> 안에 두고, 제목이 있는 주제 단위는 <code>section</code>, 떼어내도 의미가 완결되는 저장소 카드는 <code>article</code> 로 나눴습니다.</p>
+      </div>
+
+      <div class="row">
+        <div class="seg" role="group" aria-label="보기 방식">
+          <button type="button" id="sem-on" aria-pressed="true">시맨틱 태그</button>
+          <button type="button" id="sem-off" aria-pressed="false">div 로만 만들었다면</button>
+        </div>
+      </div>
+      <div class="landmarks" id="landmarks"></div>
+
+      <div class="wire-wrap">
+        <div class="wire" id="wire">
+          <button type="button" class="wb" data-k="header"><span class="tag">&lt;header&gt;</span><span class="what">로고 · 메뉴 · 테마 버튼</span></button>
+          <div class="wbox">
+            <button type="button" class="wb" data-k="nav"><span class="tag">&lt;nav&gt;</span><span class="what">About · Skills · Projects · Contact</span></button>
+          </div>
+          <button type="button" class="wb" data-k="main"><span class="tag">&lt;main&gt;</span><span class="what">이 페이지의 본문</span></button>
+          <div class="wbox">
+            <button type="button" class="wb" data-k="hero"><span class="tag">&lt;section id="hero"&gt;</span><span class="what">h1 · CTA 2개</span></button>
+            <button type="button" class="wb" data-k="about"><span class="tag">&lt;section id="about"&gt;</span><span class="what">프로필 이미지 · 소개</span></button>
+            <button type="button" class="wb" data-k="skills"><span class="tag">&lt;section id="skills"&gt;</span><span class="what">ul · li 10개</span></button>
+            <button type="button" class="wb" data-k="projects"><span class="tag">&lt;section id="projects"&gt;</span><span class="what">JS 가 채움</span></button>
+            <div class="wcards">
+              <button type="button" class="wb" data-k="article"><span class="tag">&lt;article&gt;</span></button>
+              <button type="button" class="wb" data-k="article"><span class="tag">&lt;article&gt;</span></button>
+              <button type="button" class="wb" data-k="article"><span class="tag">&lt;article&gt;</span></button>
+            </div>
+            <button type="button" class="wb" data-k="contact"><span class="tag">&lt;section id="contact"&gt;</span><span class="what">form · label</span></button>
+          </div>
+          <button type="button" class="wb" data-k="footer"><span class="tag">&lt;footer&gt;</span><span class="what">저작권 · GitHub 링크</span></button>
+        </div>
+        <div class="panel info" id="sem-info" aria-live="polite"></div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>기준</th><th>이 페이지에서</th></tr></thead>
+          <tbody>
+            <tr><td>제목 계층</td><td><code>h1</code> 은 Hero 에 하나, 섹션 제목은 <code>h2</code>, 카드 제목은 <code>h3</code></td></tr>
+            <tr><td><code>div</code> 는 어디에</td><td>의미 없는 스타일용 래퍼에만: <code>.container</code>, 버튼 묶음 <code>.hero-buttons</code></td></tr>
+            <tr><td>접근성</td><td>이미지 <code>alt</code>, <code>label for</code>↔<code>id</code>, 아이콘 버튼 <code>aria-label</code> (<code>index.html:22-23,107</code>), <code>&lt;html lang="ko"&gt;</code></td></tr>
+            <tr><td>CTA 가 <code>&lt;a&gt;</code> 인 이유</td><td>페이지 안의 다른 위치로 이동하는 것이므로 링크. 동작을 실행하는 테마·햄버거는 <code>&lt;button&gt;</code></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 목표 2 -->
+    <section class="sec" id="layout">
+      <header>
+        <div class="eyebrow">과제 목표 2 · CSS</div>
+        <h2>Flexbox 와 Grid, 언제 무엇을 쓰나</h2>
+      </header>
+      <div class="say">
+        <b class="lbl">답변</b>
+        <p>Flexbox 는 <b>한 방향</b>(가로 또는 세로)으로 아이템을 늘어놓고, 각 아이템의 콘텐츠 크기를 기준으로 남는 공간을 나눕니다. Grid 는 <b>행과 열을 동시에</b> 정의하고 그 칸에 아이템을 배치합니다. 그래서 네비게이션처럼 한 줄 정렬이나 기술 태그처럼 폭이 제각각인 목록은 Flexbox, 카드 목록처럼 행과 열을 맞춰야 하는 곳은 Grid 를 썼습니다.</p>
+      </div>
+
+      <div class="grid2">
+        <div class="panel">
+          <h3 style="margin:0 0 8px">Flexbox 를 쓴 곳</h3>
+          <div class="tbl-wrap" style="border:none">
+            <table>
+              <tbody>
+                <tr><td><code>.nav</code></td><td>로고 · 메뉴 · 버튼 한 줄. <code>margin-left:auto</code> 로 오른쪽 정렬</td></tr>
+                <tr><td><code>.skills</code></td><td><code>flex-wrap</code>. 글자 길이만큼 폭, 넘치면 다음 줄</td></tr>
+                <tr><td><code>.about</code></td><td>모바일 <code>column</code> → 768px 부터 <code>row</code></td></tr>
+                <tr><td><code>.hero-buttons</code> <code>.form</code> <code>.footer</code></td><td>한 줄 정렬, 세로 쌓기</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="panel">
+          <h3 style="margin:0 0 8px">Grid 를 쓴 곳</h3>
+          <pre class="code" data-src="src-grid" data-start="221" data-lang="css"></pre>
+          <p class="hint" style="margin-top:8px">카드 최소 폭 260px 을 지키면서 들어가는 만큼 열을 만들고(<code>auto-fit</code>), 남는 폭은 <code>1fr</code> 로 똑같이 나눕니다. 미디어 쿼리 없이 열 수가 바뀝니다.</p>
+        </div>
+      </div>
+
+      <h3>직접 폭을 바꿔보기</h3>
+      <p class="hint">실제 포트폴리오와 같은 규칙으로 만든 축소판입니다. 미디어 쿼리 768px · 1024px 을 이 상자의 폭 기준으로 적용했습니다. ☰ 도 눌러보세요.</p>
+      <div class="panel ls-controls">
+        <div class="ls-w">
+          <label for="ls-w">화면 폭</label>
+          <output id="ls-wout" for="ls-w">375px</output>
+        </div>
+        <input type="range" id="ls-w" min="320" max="1200" value="375">
+        <div class="row">
+          <div class="seg" role="group" aria-label="폭 프리셋" id="ls-preset">
+            <button type="button" data-w="375" aria-pressed="true">모바일 375</button>
+            <button type="button" data-w="800" aria-pressed="false">태블릿 800</button>
+            <button type="button" data-w="1200" aria-pressed="false">데스크톱 1200</button>
+          </div>
+        </div>
+        <div class="row">
+          <div class="seg" role="group" aria-label="Projects 배치 방식" id="ls-mode">
+            <button type="button" data-m="fit" aria-pressed="true">Grid auto-fit (실제 코드)</button>
+            <button type="button" data-m="fill" aria-pressed="false">Grid auto-fill</button>
+            <button type="button" data-m="flex" aria-pressed="false">Flexbox wrap</button>
+          </div>
+          <div class="seg" role="group" aria-label="카드 개수" id="ls-count">
+            <button type="button" data-c="2" aria-pressed="false">카드 2개</button>
+            <button type="button" data-c="5" aria-pressed="true">카드 5개</button>
+          </div>
+          <label class="row" style="gap:6px;font-size:14px"><input type="checkbox" id="ls-outline"> 윤곽 보기</label>
+        </div>
+        <div class="ls-read">
+          <span>적용 중인 CSS</span>
+          <span class="pill on" id="bp-base">기본(모바일)</span>
+          <span class="pill" id="bp-768">@media (min-width: 768px)</span>
+          <span class="pill" id="bp-1024">@media (min-width: 1024px)</span>
+        </div>
+        <div class="ls-read" id="ls-cols"></div>
+      </div>
+      <div class="ls-stage" id="ls-stage">
+        <div class="mini" id="mini">
+          <div class="m-nav">
+            <span class="m-logo">허준</span>
+            <ul class="m-menu" id="m-menu"><li>About</li><li>Skills</li><li>Projects</li><li>Contact</li></ul>
+            <button type="button" class="m-icon m-theme" aria-label="다크 모드 (예시)">🌙</button>
+            <button type="button" class="m-icon m-burger" id="m-burger" aria-label="메뉴 열기 (예시)">☰</button>
+          </div>
+          <div class="m-sec">
+            <div class="m-about">
+              <div class="m-avatar" role="img" aria-label="프로필 이미지 자리"></div>
+              <div><h5>About</h5><p>성능 병목을 프로파일링하고, 그 병목을 기술적으로 해결해나가는 엔지니어링을 즐깁니다.</p></div>
+            </div>
+          </div>
+          <div class="m-sec">
+            <h5>Skills</h5>
+            <ul class="m-skills"><li>C++</li><li>Unreal Engine 5</li><li>Unity 6 WebGL</li><li>Direct3D 11</li><li>Python</li><li>HTML</li><li>CSS</li><li>JavaScript</li><li>Git</li><li>Perforce</li></ul>
+          </div>
+          <div class="m-sec">
+            <h5>Projects</h5>
+            <div class="m-grid fit" id="m-grid"></div>
+          </div>
+        </div>
+      </div>
+      <div class="grid2">
+        <div class="panel prose">
+          <b>관찰 포인트</b>
+          <p class="hint">① 767 ↔ 768px 에서 메뉴가 ☰ 로 바뀝니다. ② Skills 는 태그마다 폭이 다릅니다(Flex). ③ 카드 2개 · 1200px 에서 <code>auto-fit</code> 은 두 카드가 늘어나고 <code>auto-fill</code> 은 빈 칸을 남깁니다. ④ Flexbox wrap 으로 바꾸면 마지막 줄 카드가 혼자 넓어집니다.</p>
+        </div>
+        <div class="panel prose">
+          <b>모바일 퍼스트</b>
+          <p class="hint">기본 CSS 가 모바일용이고 <code>min-width</code> 미디어 쿼리에서 넓은 화면용 규칙을 <b>덧붙입니다</b>. 데스크톱 퍼스트는 반대로 <code>max-width</code> 로 뺍니다. <code>&lt;meta name="viewport"&gt;</code> 가 없으면 모바일 브라우저가 980px 로 그린 뒤 축소해서 미디어 쿼리가 의도대로 동작하지 않습니다.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 목표 3 -->
+    <section class="sec" id="dom">
+      <header>
+        <div class="eyebrow">과제 목표 3 · JavaScript</div>
+        <h2>querySelector 로 고르고, addEventListener 로 연결하기</h2>
+      </header>
+      <div class="say">
+        <b class="lbl">답변</b>
+        <p>스크립트를 <code>defer</code> 로 연결해서 HTML 파싱이 끝난 뒤 실행되게 했습니다. 그 시점엔 모든 요소가 DOM 에 있으므로 <code>querySelector</code> 로 요소를 고르고, <code>addEventListener</code> 로 이벤트 종류와 실행할 함수를 등록합니다. 이벤트가 발생하면 브라우저가 그 함수를 호출하고, 함수 안에서 <code>classList</code>, <code>textContent</code> 같은 걸로 DOM 을 바꿉니다.</p>
+      </div>
+
+      <h3>1단계 · 스크립트가 언제 실행되나</h3>
+      <div class="panel tl">
+        <div class="legend">
+          <span><i style="background:var(--ok)"></i>HTML 파싱</span>
+          <span><i style="background:repeating-linear-gradient(135deg,var(--err) 0 3px,transparent 3px 7px)"></i>파싱 멈춤</span>
+          <span><i style="background:var(--accent)"></i>JS 다운로드</span>
+          <span><i style="background:#F0A030"></i>JS 실행</span>
+          <span>DCL = DOMContentLoaded</span>
+        </div>
+        <div class="tl-row">
+          <div class="tl-label">&lt;script&gt;<small>head 안, 속성 없음</small></div>
+          <div class="tl-track">
+            <span class="seg-b parse" style="left:0;width:17%"></span>
+            <span class="seg-b pause" style="left:17%;width:29%"></span>
+            <span class="seg-b dl" style="left:17%;width:19%"></span>
+            <span class="seg-b ex" style="left:36%;width:10%"></span>
+            <span class="seg-b parse" style="left:46%;width:50%"></span>
+            <span class="dcl" style="left:96%"></span>
+          </div>
+          <div class="tl-note bad">실행 시점에 body 가 아직 없음 → <code>querySelector</code> 가 <code>null</code></div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-label">&lt;script async&gt;</div>
+          <div class="tl-track">
+            <span class="seg-b parse" style="left:0;width:36%"></span>
+            <span class="seg-b dl" style="left:17%;width:19%"></span>
+            <span class="seg-b pause" style="left:36%;width:10%"></span>
+            <span class="seg-b ex" style="left:36%;width:10%"></span>
+            <span class="seg-b parse" style="left:46%;width:31%"></span>
+            <span class="dcl" style="left:77%"></span>
+          </div>
+          <div class="tl-note bad">다운로드가 끝나는 즉시 실행 → DOM 이 반쯤만 있을 수 있고 파일 간 순서도 보장 안 됨</div>
+        </div>
+        <div class="tl-row">
+          <div class="tl-label">&lt;script defer&gt;<small>이 프로젝트 · index.html:8</small></div>
+          <div class="tl-track">
+            <span class="seg-b parse" style="left:0;width:67%"></span>
+            <span class="seg-b dl" style="left:17%;width:19%"></span>
+            <span class="seg-b ex" style="left:67%;width:10%"></span>
+            <span class="dcl" style="left:77%"></span>
+          </div>
+          <div class="tl-note good">파싱을 멈추지 않고 받아두었다가, DOM 완성 후 DCL 직전에 실행</div>
+        </div>
+      </div>
+
+      <h3>2단계 · 고르고 → 연결하고 → 바꾸기</h3>
+      <div class="flow">
+        <div class="node"><b>querySelector</b><small>선택자로 첫 요소 1개</small></div>
+        <div class="arrow">→</div>
+        <div class="node ev"><b>addEventListener</b><small>'click', 콜백 등록</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>사용자가 클릭</b><small>브라우저가 콜백(event) 호출</small></div>
+        <div class="arrow">→</div>
+        <div class="node rd"><b>DOM 변경</b><small>classList.toggle</small></div>
+      </div>
+      <pre class="code" data-src="src-burger" data-start="24" data-marks="24:선택|25:선택|27:연결|28:DOM 변경|31:전부 선택|32:각각 연결|33:DOM 변경"></pre>
+      <p class="hint"><code>querySelectorAll</code> 은 일치하는 요소 전부를 <code>NodeList</code> 로 돌려주고, <code>NodeList</code> 는 <code>forEach</code> 를 지원합니다. 메뉴 링크를 누르면 <code>remove('active')</code> 로 메뉴를 닫습니다.</p>
+
+      <div class="grid2">
+        <div class="panel prose">
+          <b>HTML 의 <code>onclick</code> 속성 대신 <code>addEventListener</code></b>
+          <p class="hint">HTML(구조)과 JS(동작)가 분리됩니다. <code>onclick</code> 은 핸들러 하나만 가질 수 있고 다시 대입하면 덮어쓰지만, <code>addEventListener</code> 는 여러 개를 등록할 수 있고 <code>removeEventListener</code> 와 <code>{ once: true }</code> 같은 옵션을 쓸 수 있습니다.</p>
+        </div>
+        <div class="panel prose">
+          <b>이벤트 위임 · 폼 input (js/main.js:133)</b>
+          <p class="hint">입력칸마다 리스너를 달지 않고 <code>form</code> 하나에 달았습니다. <code>input</code> 이벤트는 입력칸에서 발생해 부모로 전파(bubbling)되므로 <code>form</code> 에서 받을 수 있고, 어느 칸인지는 <code>event.target</code> 으로 압니다. 아래에 입력해보세요.</p>
+        </div>
+      </div>
+      <div class="grid2">
+        <form class="bub" id="bub" novalidate>
+          <span class="ftag">&lt;form&gt; ← 리스너는 여기 하나</span>
+          <div class="field"><label for="bub-a">이름</label><input id="bub-a" name="name" autocomplete="off"></div>
+          <div class="field"><label for="bub-b">이메일</label><input id="bub-b" name="email" autocomplete="off"></div>
+        </form>
+        <div class="log" id="bub-log"><div class="old">입력하면 여기에 event.target 이 찍힙니다</div></div>
+      </div>
+    </section>
+
+    <!-- 목표 4 -->
+    <section class="sec" id="es6">
+      <header>
+        <div class="eyebrow">과제 목표 4 · ES6+</div>
+        <h2>화살표 함수, 구조분해, map · filter</h2>
+      </header>
+      <div class="say">
+        <b class="lbl">답변</b>
+        <p>GitHub API 응답을 카드로 바꾸는 과정에 셋이 다 들어 있습니다. <code>filter</code> 로 포크 저장소를 빼고, <code>map</code> 으로 저장소 객체 하나를 카드 HTML 문자열 하나로 바꿉니다. 이때 카드 함수는 화살표 함수이고, 필드가 81개인 저장소 객체에서 구조분해로 필요한 5개만 받습니다. <code>for</code> 문과 임시 배열 없이 "무엇으로 바꿀지"만 쓰면 되고, 원본 배열은 바뀌지 않습니다.</p>
+      </div>
+
+      <h3>API 응답이 카드가 되기까지</h3>
+      <div class="pipe">
+        <div class="stage">
+          <h4>① response.json()</h4>
+          <div class="cap">저장소 객체 배열 (실제 23개)</div>
+          <div class="item">{ name: 'b1-1-portfolio', fork: false, … }</div>
+          <div class="item">{ name: 'b5-1-mini-redis', fork: false, … }</div>
+          <div class="item">{ name: 'B1-1', fork: false, … }</div>
+          <div class="item">{ name: '(가정) 포크 저장소', fork: true, … }</div>
+          <div class="item">… 외 19개</div>
+        </div>
+        <div class="stage">
+          <h4>② .filter(r =&gt; !r.fork)</h4>
+          <div class="cap">조건이 true 인 것만 남긴 새 배열</div>
+          <div class="item">b1-1-portfolio</div>
+          <div class="item">b5-1-mini-redis</div>
+          <div class="item">B1-1</div>
+          <div class="item drop">(가정) 포크 저장소</div>
+          <div class="cap">지금은 포크가 0개라 23개가 그대로 남습니다.</div>
+        </div>
+        <div class="stage">
+          <h4>③ .map(createCard)</h4>
+          <div class="cap">객체 1개 → 문자열 1개, 길이 그대로</div>
+          <div class="item str">'&lt;article class="card"&gt;…b1-1-portfolio…'</div>
+          <div class="item str">'&lt;article class="card"&gt;…b5-1-mini-redis…'</div>
+          <div class="item str">'&lt;article class="card"&gt;…B1-1…'</div>
+        </div>
+        <div class="stage">
+          <h4>④ .join('') → innerHTML</h4>
+          <div class="cap">문자열 하나로 이어 붙여 grid 에 넣음</div>
+          <div class="item str">'&lt;article…&gt;…&lt;/article&gt;&lt;article…&gt;…'</div>
+          <div class="cap"><code>join('')</code> 없이 배열을 넣으면 사이에 쉼표가 찍힙니다.</div>
+        </div>
+      </div>
+      <pre class="code" data-src="src-card" data-start="66" data-marks="66:화살표 + 구조분해|68:템플릿 리터럴|69:값 없을 때 기본 문구|89:map → join|103:filter"></pre>
+
+      <h3>구조분해 할당 · 81개 필드 중 5개만</h3>
+      <div class="panel" style="display:grid;gap:10px">
+        <div class="fields" id="fields"></div>
+        <p class="hint">구조분해가 없으면 <code>repo.name</code>, <code>repo.description</code> … 처럼 매번 객체 이름을 반복해야 합니다. 함수 첫 줄만 봐도 카드가 어떤 데이터를 쓰는지 알 수 있습니다.</p>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>다른 구조분해 사용처</th><th>무엇에서 무엇을</th></tr></thead>
+          <tbody>
+            <tr><td class="loc">js/main.js:52</td><td><code>({ isIntersecting, target })</code> — IntersectionObserver 항목에서 2개</td></tr>
+            <tr><td class="loc">js/main.js:118</td><td><code>({ name, value })</code> — 입력 요소에서 name 속성과 입력값. 요소를 그대로 넘겨 호출</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <h3>화살표 함수</h3>
+      <div class="grid2">
+        <pre class="code" data-src="src-arrow-old" data-start="1"></pre>
+        <pre class="code" data-src="src-arrow-new" data-start="1"></pre>
+      </div>
+      <p class="hint">본문이 식 하나면 <code>{}</code> 와 <code>return</code> 을 생략합니다. 화살표 함수는 자기 <code>this</code> 가 없고 바깥의 <code>this</code> 를 씁니다. 이 코드는 <code>this</code> 를 쓰지 않아서 영향이 없습니다. <code>forEach</code> 는 새 배열 없이 순회만 하며 리스너 등록 · 검사 같은 작업에 썼습니다(<code>js/main.js:31,52,60,142</code>).</p>
+    </section>
+
+    <!-- 목표 5 -->
+    <section class="sec" id="fetch">
+      <header>
+        <div class="eyebrow">과제 목표 5 · 비동기</div>
+        <h2>fetch 와 async/await, 그리고 4가지 상태</h2>
+      </header>
+      <div class="say">
+        <b class="lbl">답변</b>
+        <p>요청 전에 상태를 <code>loading</code> 으로 바꿔 "로딩 중..." 을 보여주고, <code>await fetch</code> 로 응답을 기다립니다. 응답이 성공이면 포크를 뺀 목록이 있으면 <code>success</code>, 없으면 <code>empty</code>, 요청이 실패하면 <code>catch</code> 에서 <code>error</code> 로 바꿔 재시도 버튼을 보여줍니다. 핵심은 <code>fetch</code> 가 403 같은 HTTP 에러에서는 실패하지 않는다는 점이라, <code>response.ok</code> 를 직접 검사해서 throw 했습니다.</p>
+      </div>
+
+      <div class="panel" style="display:grid;gap:12px">
+        <div class="row">
+          <span class="hint">서버 응답 시나리오</span>
+          <div class="seg" role="group" aria-label="응답 시나리오" id="fs-scn">
+            <button type="button" data-s="ok" aria-pressed="true">200 · 저장소 있음</button>
+            <button type="button" data-s="empty" aria-pressed="false">200 · 빈 배열</button>
+            <button type="button" data-s="403" aria-pressed="false">403 · 레이트 리밋</button>
+            <button type="button" data-s="offline" aria-pressed="false">네트워크 끊김</button>
+          </div>
+        </div>
+        <div class="row"><button type="button" class="btn" id="fs-run">loadProjects() 실행</button><span class="hint">밝은 줄이 지금 실행 중인 줄, 흐린 줄은 지나온 경로입니다. 건너뛴 줄은 표시되지 않습니다.</span></div>
+      </div>
+      <div class="sim">
+        <pre class="code" id="fs-code" data-src="src-load" data-start="93"></pre>
+        <div class="statebox">
+          <div class="panel" style="display:grid;gap:8px">
+            <dl class="kv">
+              <dt>status</dt><dd><span class="pill" id="fs-pill">—</span></dd>
+              <dt>response</dt><dd id="fs-resp">—</dd>
+            </dl>
+            <div class="log" id="fs-log"><div class="old">실행을 누르면 단계별로 기록됩니다</div></div>
+          </div>
+          <div class="render" id="fs-render"><div class="r-h">Projects</div><div class="hint" style="color:#5F6475">화면이 여기에 그려집니다</div></div>
+        </div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>status</th><th>#projects-status</th><th>#projects-grid</th><th>언제</th></tr></thead>
+          <tbody>
+            <tr><td><span class="pill loading">loading</span></td><td>로딩 중...</td><td>비움</td><td>요청 직전</td></tr>
+            <tr><td><span class="pill success">success</span></td><td>비움</td><td>카드 목록</td><td>응답 OK, 1개 이상</td></tr>
+            <tr><td><span class="pill empty">empty</span></td><td>표시할 프로젝트가 없습니다.</td><td>비움</td><td>응답 OK, 0개</td></tr>
+            <tr><td><span class="pill error">error</span></td><td>프로젝트를 불러올 수 없습니다. + 다시 시도</td><td>비움</td><td>네트워크 실패 또는 HTTP 에러</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="grid2">
+        <div class="panel prose">
+          <b>fetch 가 reject 하는 경우는 하나뿐</b>
+          <p class="hint">응답 자체를 못 받았을 때(네트워크 끊김, DNS 실패)만 reject 합니다. 403 · 404 · 500 은 "응답을 받았으므로" 정상 이행되고 <code>response.ok</code> 만 <code>false</code> 입니다(200–299 가 <code>true</code>). 인증 없는 GitHub API 는 IP 당 시간당 60회로 제한되고 초과하면 403 이 옵니다. 99–101번 줄이 없으면 403 에서 <code>data</code> 가 에러 객체가 되어 <code>filter</code> 에서 터지거나 엉뚱한 화면이 됩니다.</p>
+        </div>
+        <div class="panel prose">
+          <b>await 가 두 번인 이유 · 비동기인 이유</b>
+          <p class="hint"><code>fetch</code> 는 헤더가 오면 이행되고, 본문은 <code>response.json()</code> 으로 따로 읽으며 이것도 Promise 입니다. <code>await</code> 는 <b>이 함수의 나머지만</b> 멈추고 메인 스레드는 스크롤 · 클릭을 계속 처리합니다. 동기로 기다렸다면 응답이 올 때까지 페이지가 멈춥니다.</p>
+        </div>
+      </div>
+      <div class="panel prose">
+        <b>다시 시도 버튼에 리스너를 매번 새로 거는 이유 (js/main.js:84)</b>
+        <p class="hint"><code>innerHTML</code> 로 버튼을 매번 새로 만들기 때문입니다. 이전 버튼은 교체될 때 리스너와 함께 사라지므로, 새 버튼에 다시 등록해야 합니다. <code>renderProjects</code> 첫 줄에서 grid 를 비우고 status 하나만 그리므로 두 상태가 동시에 보일 수 없습니다.</p>
+      </div>
+    </section>
+
+    <!-- 목표 6 -->
+    <section class="sec" id="state">
+      <header>
+        <div class="eyebrow">과제 목표 6 · 상태와 렌더링</div>
+        <h2>이벤트 → 상태 변경 → DOM 업데이트</h2>
+      </header>
+      <div class="say">
+        <b class="lbl">답변</b>
+        <p>세 기능 모두 같은 모양입니다. 이벤트 핸들러는 화면을 직접 만지지 않고 <b>상태 변수만 바꾼 뒤 렌더 함수를 호출</b>합니다. 렌더 함수는 현재 상태만 보고 화면을 그립니다. 그래서 화면은 항상 상태와 일치합니다. React 의 <code>useState</code> 와 렌더링이 이 흐름을 자동화한 것입니다.</p>
+      </div>
+      <div class="flow">
+        <div class="node ev"><b>이벤트</b><small>click · input · submit · 페이지 로드</small></div>
+        <div class="arrow">→</div>
+        <div class="node st"><b>상태 변경</b><small>theme · status · 에러 메시지</small></div>
+        <div class="arrow">→</div>
+        <div class="node rd"><b>렌더 함수</b><small>renderTheme · renderProjects · renderError</small></div>
+        <div class="arrow">→</div>
+        <div class="node"><b>화면</b><small>DOM</small></div>
+      </div>
+
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>기능</th><th>이벤트</th><th>상태</th><th>렌더</th><th>위치</th></tr></thead>
+          <tbody>
+            <tr><td>다크 모드</td><td>토글 click</td><td><code>theme</code> + localStorage</td><td><code>renderTheme()</code> → <code>&lt;html data-theme&gt;</code></td><td class="loc">main.js:7-21</td></tr>
+            <tr><td>Projects</td><td>로드 · 재시도 click</td><td><code>status</code>, <code>repos</code></td><td><code>renderProjects(status, repos)</code></td><td class="loc">main.js:74-110</td></tr>
+            <tr><td>Contact 폼</td><td>input · submit</td><td>필드별 에러 메시지, <code>isValid</code></td><td><code>renderError(field, message)</code></td><td class="loc">main.js:113-154</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="상태 흐름 예시">
+        <button type="button" role="tab" id="tab-dark" aria-selected="true" aria-controls="pane-dark">다크 모드</button>
+        <button type="button" role="tab" id="tab-form" aria-selected="false" aria-controls="pane-form">Contact 폼</button>
+      </div>
+
+      <div id="pane-dark" role="tabpanel" aria-labelledby="tab-dark" style="display:grid;gap:16px">
+        <div class="row">
+          <button type="button" class="btn" id="dk-click">토글 버튼 클릭</button>
+          <button type="button" class="btn ghost" id="dk-reload">새로고침 (F5)</button>
+          <button type="button" class="btn ghost" id="dk-clear">localStorage 비우기</button>
+        </div>
+        <div class="sim">
+          <pre class="code" id="dk-code" data-src="src-theme" data-start="7"></pre>
+          <div class="statebox">
+            <div class="panel">
+              <dl class="kv">
+                <dt>theme (변수)</dt><dd id="dk-var">'light'</dd>
+                <dt>localStorage.theme</dt><dd id="dk-ls">(없음)</dd>
+                <dt>&lt;html data-theme&gt;</dt><dd id="dk-attr">"light"</dd>
+                <dt>버튼 글자</dt><dd id="dk-icon">🌙</dd>
+              </dl>
+            </div>
+            <div class="pv" id="dk-pv">
+              <div class="pv-nav"><span>허준</span><span id="dk-pvicon">🌙</span></div>
+              <div class="pv-card"><b>b1-1-portfolio</b><br>CSS · ★ 0</div>
+            </div>
+            <p class="hint">localStorage 는 이 페이지 안에서 흉내 낸 값입니다.</p>
+          </div>
+        </div>
+        <div class="panel" style="display:grid;gap:10px">
+          <b>속성 하나로 전체 색이 바뀌는 이유</b>
+          <p class="hint">JS 는 색을 하나도 바꾸지 않습니다. <code>&lt;html&gt;</code> 에 <code>data-theme="dark"</code> 가 붙으면 <code>[data-theme="dark"]</code> 규칙이 CSS 변수 값을 교체하고, <code>var(--color-bg)</code> 를 쓰는 모든 요소가 따라 바뀝니다. <code>html</code> 에 붙이는 이유는 최상위 요소라 변수가 문서 전체로 상속되기 때문입니다.</p>
+          <div class="cssvars" id="cssvars"></div>
+          <p class="hint"><code>:root</code> 와 <code>[data-theme="dark"]</code> 는 우선순위(specificity)가 (0,1,0) 으로 같습니다. 둘 다 <code>html</code> 에 걸리면 <b>나중에 선언된</b> 다크 규칙이 이깁니다(<code>css/style.css:2, 20</code>).</p>
+        </div>
+      </div>
+
+      <div id="pane-form" role="tabpanel" aria-labelledby="tab-form" hidden style="display:grid;gap:16px">
+        <div class="sim">
+          <pre class="code" id="cf-code" data-src="src-form" data-start="113"></pre>
+          <div class="statebox">
+            <form class="panel bub" id="cf" novalidate style="gap:6px">
+              <span class="ftag">&lt;form novalidate&gt;</span>
+              <div class="field"><label for="cf-name">이름</label><input id="cf-name" name="name" autocomplete="off"><p class="error" id="cf-name-error"></p></div>
+              <div class="field"><label for="cf-email">이메일</label><input id="cf-email" name="email" autocomplete="off"><p class="error" id="cf-email-error"></p></div>
+              <div class="field"><label for="cf-message">메시지</label><textarea id="cf-message" name="message" rows="2"></textarea><p class="error" id="cf-message-error"></p></div>
+              <div class="row"><button type="submit" class="btn">보내기</button><span id="cf-success" style="color:var(--ok);font-size:14px"></span></div>
+            </form>
+            <div class="tbl-wrap">
+              <table>
+                <thead><tr><th>필드</th><th>validate() 반환 = 상태</th><th>.invalid</th></tr></thead>
+                <tbody id="cf-state"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="panel prose">
+            <b>novalidate 와 preventDefault</b>
+            <p class="hint"><code>novalidate</code> 는 브라우저 기본 검증 말풍선을 끄고 직접 만든 메시지를 필드 아래에 보여주기 위해서입니다. <code>preventDefault()</code> 가 없으면 폼이 현재 URL 로 전송되며 새로고침되어 입력값과 메시지가 사라집니다.</p>
+          </div>
+          <div class="panel prose">
+            <b>이메일 정규식</b>
+            <p class="hint"><code>^[^\s@]+@[^\s@]+\.[^\s@]+$</code> — 공백과 @ 가 아닌 글자 1개 이상, <code>@</code>, 다시 1개 이상, <code>.</code>, 다시 1개 이상. <code>a@b.c</code> 는 통과, <code>abc</code> · <code>a@b</code> 는 실패합니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <h3>React 와 대응</h3>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>이 프로젝트</th><th>React</th></tr></thead>
+          <tbody>
+            <tr><td><code>let theme</code></td><td><code>const [theme, setTheme] = useState()</code></td></tr>
+            <tr><td><code>theme = …; renderTheme()</code> — 렌더를 직접 호출</td><td><code>setTheme(…)</code> — 호출하면 React 가 자동으로 다시 렌더</td></tr>
+            <tr><td><code>renderProjects</code> 안의 status 분기</td><td>컴포넌트의 조건부 렌더링</td></tr>
+            <tr><td><code>createCard(repo)</code></td><td>props 를 받아 마크업을 돌려주는 <code>&lt;Card /&gt;</code> 컴포넌트</td></tr>
+            <tr><td><code>repos.map(createCard).join('')</code></td><td><code>repos.map(r =&gt; &lt;Card {...r} /&gt;)</code></td></tr>
+            <tr><td><code>innerHTML</code> 로 통째로 교체</td><td>이전 결과와 비교해 바뀐 DOM 만 갱신</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- 스크롤 -->
+    <section class="sec" id="scroll">
+      <header>
+        <div class="eyebrow">인터랙션 · 기준값 60px · 300px · 0.2</div>
+        <h2>스크롤로 바뀌는 것들</h2>
+      </header>
+      <p class="lead">아래 상자 안을 스크롤해보세요. 실제 포트폴리오와 같은 기준값과 같은 방식(<code>classList.toggle</code>, <code>IntersectionObserver</code>)으로 동작합니다.</p>
+      <div class="grid2">
+        <div class="ss-wrap">
+          <div class="ss" id="ss">
+            <div class="ss-head" id="ss-head"><b>허준</b><a data-to="ss-about">About</a><a data-to="ss-skills">Skills</a><a data-to="ss-contact">Contact</a></div>
+            <div class="ss-hero">안녕하세요, 허준입니다.</div>
+            <div class="ss-sec" id="ss-about"><div class="ss-box">About · .reveal</div></div>
+            <div class="ss-sec" id="ss-skills"><div class="ss-box">Skills · .reveal</div></div>
+            <div class="ss-sec" id="ss-contact"><div class="ss-box">Contact · .reveal</div></div>
+          </div>
+          <button type="button" class="ss-top" id="ss-top" aria-label="맨 위로">↑</button>
+        </div>
+        <div class="statebox">
+          <div class="panel" style="display:grid;gap:10px">
+            <dl class="kv">
+              <dt>scrollY</dt><dd id="ss-y">0</dd>
+              <dt>header .scrolled</dt><dd id="ss-h">false</dd>
+              <dt>scroll-top .visible</dt><dd id="ss-t">false</dd>
+              <dt>.reveal 표시</dt><dd id="ss-r">0 / 3</dd>
+            </dl>
+            <div class="meter" aria-hidden="true">
+              <div class="track"></div><div class="fill" id="ss-fill"></div>
+              <div class="mk" style="left:10%"><span>60</span></div>
+              <div class="mk" style="left:50%"><span>300</span></div>
+            </div>
+            <div class="row"><button type="button" class="btn ghost" id="ss-reset">애니메이션 다시 보기</button></div>
+          </div>
+          <pre class="code" data-src="src-scroll" data-start="41"></pre>
+        </div>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>기능</th><th>동작 원리</th><th>위치</th></tr></thead>
+          <tbody>
+            <tr><td>헤더 배경</td><td><code>scrollY &gt; 60</code> 이면 <code>.scrolled</code>. <code>toggle(이름, 조건)</code> 은 조건이 true 면 추가, false 면 제거라서 if/else 가 필요 없습니다.</td><td class="loc">main.js:42</td></tr>
+            <tr><td>스크롤 탑</td><td><code>scrollY &gt; 300</code> 이면 <code>.visible</code>, 클릭하면 <code>scrollTo({ top: 0, behavior: 'smooth' })</code>. 숨김은 <code>display:none</code> 이 아니라 <code>opacity</code> + <code>visibility</code> — <code>display</code> 는 transition 이 안 되고, <code>visibility:hidden</code> 은 투명한 버튼이 클릭되는 걸 막습니다.</td><td class="loc">main.js:43-48<br>style.css:288-308</td></tr>
+            <tr><td>부드러운 스크롤</td><td>JS 없이 <code>html { scroll-behavior: smooth }</code> 한 줄. <code>scroll-padding-top: 60px</code> 은 고정 헤더(60px) 밑에 섹션 제목이 가려지지 않게 멈추는 위치를 올립니다.</td><td class="loc">style.css:38-41</td></tr>
+            <tr><td>스크롤 애니메이션</td><td>요소가 화면과 20% 이상 겹치면(<code>threshold: 0.2</code>) <code>.visible</code> 을 붙이고 <code>unobserve</code> 로 감시를 끊어 한 번만 실행. scroll 이벤트로 위치를 매번 계산하는 것보다 가볍습니다.</td><td class="loc">main.js:51-60</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Q&A -->
+    <section class="sec" id="qa">
+      <header>
+        <div class="eyebrow">자기 점검</div>
+        <h2>예상 질문</h2>
+      </header>
+      <p class="lead">먼저 답을 소리 내어 말해본 뒤 펼쳐서 확인하세요. 설명할 수 있게 된 질문은 체크해두면 이 브라우저에 기억됩니다.</p>
+      <div class="row"><button type="button" class="btn ghost" id="qa-all">전부 펼치기</button><span class="hint" id="qa-count"></span></div>
+      <div class="qa" id="qa-list"></div>
+    </section>
+
+    <!-- 시연 -->
+    <section class="sec" id="demo">
+      <header>
+        <div class="eyebrow">평가 당일</div>
+        <h2>시연 순서</h2>
+      </header>
+      <p class="lead">배포 URL 을 Chrome 에서 열고 순서대로 보여줍니다. 체크는 이 브라우저에 기억됩니다.</p>
+      <ol class="check" id="demo-list"></ol>
+    </section>
+
+    <!-- 요구사항 -->
+    <section class="sec" id="reqs">
+      <header>
+        <div class="eyebrow">참고</div>
+        <h2>요구사항 → 구현 위치</h2>
+      </header>
+      <p class="lead">"이건 어디에 있어요?" 에 바로 가리킬 수 있게 모았습니다.</p>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr><th>요구사항</th><th>구현</th><th>위치</th></tr></thead>
+          <tbody id="req-body"></tbody>
+        </table>
+      </div>
+      <h3>알려진 한계</h3>
+      <ul class="limits">
+        <li><span><code>innerHTML</code> 에 API 문자열(<code>description</code>)을 이스케이프 없이 넣습니다. 내 계정 데이터라 실제 위험은 낮지만, 설명에 <code>&lt;</code> 가 있으면 HTML 로 해석됩니다.</span></li>
+        <li><span>API 기본 <code>per_page</code> 는 30개입니다. 지금 23개라 전부 나오지만 30개를 넘으면 잘립니다.</span></li>
+        <li><span>새로고침 직후 잠깐 라이트 테마가 보일 수 있습니다(<code>defer</code> 스크립트 실행 전 첫 화면). 직접 측정하지는 않았습니다.</span></li>
+        <li><span>폼은 실제로 전송하지 않고 성공 문구만 보여줍니다.</span></li>
+        <li><span>모바일 메뉴는 ☰ 또는 메뉴 링크로만 닫힙니다. 바깥을 눌러도 닫히지 않습니다.</span></li>
+        <li><span>보너스 과제(언어 필터, 타이핑 효과, 실제 전송, 시스템 다크 모드 감지)는 하지 않았습니다.</span></li>
+      </ul>
+    </section>
+  </main>
+</div>
+
+<!-- 코드 원문 (js/main.js, css/style.css 에서 그대로 발췌) -->
+<script type="text/plain" id="src-grid">
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: var(--space-m);
+}
+</script>
+<script type="text/plain" id="src-burger">
+const navToggle = document.querySelector('#nav-toggle');
+const navMenu = document.querySelector('#nav-menu');
+
+navToggle.addEventListener('click', () => {
+  navMenu.classList.toggle('active');
+});
+
+document.querySelectorAll('#nav-menu a').forEach((link) => {
+  link.addEventListener('click', () => {
+    navMenu.classList.remove('active');
+  });
+});
+</script>
+<script type="text/plain" id="src-card">
+const createCard = ({ name, description, html_url, language, stargazers_count }) => `
+  <article class="card">
+    <h3><a href="${html_url}" target="_blank" rel="noopener">${name}</a></h3>
+    <p>${description || '설명이 없습니다.'}</p>
+    <p>${language || '-'} · ★ ${stargazers_count}</p>
+  </article>
+`;
+@@89
+    projectsGrid.innerHTML = repos.map(createCard).join('');
+@@103
+    const repos = data.filter((repo) => !repo.fork);
+</script>
+<script type="text/plain" id="src-arrow-old">
+// 화살표 함수 없이
+const repos = data.filter(function (repo) {
+  return !repo.fork;
+});
+</script>
+<script type="text/plain" id="src-arrow-new">
+// js/main.js:103
+const repos = data.filter((repo) => !repo.fork);
+</script>
+<script type="text/plain" id="src-load">
+const loadProjects = async () => {
+  renderProjects('loading');
+
+  try {
+    const response = await fetch(`https://api.github.com/users/${GITHUB_USERNAME}/repos`);
+    // 레이트 리밋(403) 등 실패 응답도 에러 상태로 보낸다
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+    const data = await response.json();
+    const repos = data.filter((repo) => !repo.fork);
+    renderProjects(repos.length > 0 ? 'success' : 'empty', repos);
+  } catch (error) {
+    renderProjects('error');
+  }
+};
+</script>
+<script type="text/plain" id="src-theme">
+const themeToggle = document.querySelector('#theme-toggle');
+let theme = localStorage.getItem('theme') || 'light';
+
+const renderTheme = () => {
+  document.documentElement.setAttribute('data-theme', theme);
+  themeToggle.textContent = theme === 'dark' ? '☀️' : '🌙';
+};
+
+themeToggle.addEventListener('click', () => {
+  theme = theme === 'dark' ? 'light' : 'dark';
+  localStorage.setItem('theme', theme);
+  renderTheme();
+});
+
+renderTheme();
+</script>
+<script type="text/plain" id="src-form">
+const form = document.querySelector('#contact-form');
+const formSuccess = document.querySelector('#form-success');
+const fields = form.querySelectorAll('input, textarea');
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+const validate = ({ name, value }) => {
+  if (value.trim() === '') {
+    return '필수 입력 항목입니다.';
+  }
+  if (name === 'email' && !EMAIL_PATTERN.test(value)) {
+    return '올바른 이메일 형식이 아닙니다.';
+  }
+  return '';
+};
+
+const renderError = (field, message) => {
+  document.querySelector(`#${field.id}-error`).textContent = message;
+  field.classList.toggle('invalid', message !== '');
+};
+
+form.addEventListener('input', (event) => {
+  renderError(event.target, validate(event.target));
+  formSuccess.textContent = '';
+});
+
+form.addEventListener('submit', (event) => {
+  event.preventDefault();
+
+  let isValid = true;
+  fields.forEach((field) => {
+    const message = validate(field);
+    renderError(field, message);
+    if (message) {
+      isValid = false;
+    }
+  });
+
+  if (isValid) {
+    formSuccess.textContent = '메시지가 전송되었습니다. 감사합니다!';
+    form.reset();
+  }
+});
+</script>
+<script type="text/plain" id="src-scroll">
+window.addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', window.scrollY > HEADER_SCROLL_THRESHOLD);
+  scrollTopButton.classList.toggle('visible', window.scrollY > SCROLL_TOP_THRESHOLD);
+});
+
+scrollTopButton.addEventListener('click', () => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+});
+</script>
+
+<script>
+(() => {
+  const $ = (s, r = document) => r.querySelector(s);
+  const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+  const RM = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sleep = (ms) => new Promise((r) => setTimeout(r, RM ? Math.min(ms, 120) : ms));
+  const esc = (s) => s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+  const store = {
+    get(k) { try { return JSON.parse(localStorage.getItem(k) || 'null'); } catch (e) { return null; } },
+    set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* 저장 불가 환경 */ } }
+  };
+
+  /* ---------- 코드 블록 ---------- */
+  const JS_RE = /(\/\/.*$)|('(?:[^'\\]|\\.)*'|`(?:[^`\\]|\\.)*`|\/\^.*\$\/)|\b(const|let|async|await|try|catch|if|else|throw|return|new|function|true|false)\b|\b(\d+(?:\.\d+)?)\b/g;
+  const CSS_RE = /([.#][\w-]+(?=\s*\{))|([\w-]+(?=\s*:))|(\d+(?:\.\d+)?(?:px|fr|rem)?)/g;
+  const hlJs = (line) => {
+    let out = '', last = 0, m;
+    JS_RE.lastIndex = 0;
+    while ((m = JS_RE.exec(line))) {
+      out += esc(line.slice(last, m.index));
+      const cls = m[1] ? 'c' : m[2] ? 's' : m[3] ? 'k' : 'd';
+      out += `<span class="tk-${cls}">${esc(m[0])}</span>`;
+      last = m.index + m[0].length;
+      if (m[0].length === 0) JS_RE.lastIndex++;
+    }
+    return out + esc(line.slice(last));
+  };
+  const hlCss = (line) => {
+    let out = '', last = 0, m;
+    CSS_RE.lastIndex = 0;
+    while ((m = CSS_RE.exec(line))) {
+      out += esc(line.slice(last, m.index));
+      const cls = m[1] ? 'tag' : m[2] ? 'attr' : 'd';
+      out += `<span class="tk-${cls}">${esc(m[0])}</span>`;
+      last = m.index + m[0].length;
+    }
+    return out + esc(line.slice(last));
+  };
+
+  const codeBlocks = new Map();
+  $$('pre.code[data-src]').forEach((pre) => {
+    const raw = document.getElementById(pre.dataset.src).textContent.replace(/^\n/, '').replace(/\s+$/, '');
+    let n = Number(pre.dataset.start || 1);
+    const hl = pre.dataset.lang === 'css' ? hlCss : hlJs;
+    const rows = [];
+    raw.split('\n').forEach((line) => {
+      const jump = line.match(/^@@(\d+)$/);
+      if (jump) {
+        rows.push('<div class="ln"><span class="n">⋮</span><span></span><span></span></div>');
+        n = Number(jump[1]);
+        return;
+      }
+      rows.push(`<div class="ln" data-n="${n}"><span class="n">${n}</span><span class="c">${hl(line) || ' '}</span><span class="t"></span></div>`);
+      n++;
+    });
+    pre.innerHTML = rows.join('');
+    const api = {
+      clear() { $$('.ln', pre).forEach((l) => { l.classList.remove('hl', 'visited'); $('.t', l).textContent = ''; $('.t', l).className = 't'; }); },
+      mark(items, keep) {
+        $$('.ln.hl', pre).forEach((l) => { l.classList.remove('hl'); if (keep) l.classList.add('visited'); });
+        items.forEach(([num, tag, kind]) => {
+          const l = $(`.ln[data-n="${num}"]`, pre);
+          if (!l) return;
+          l.classList.remove('visited');
+          l.classList.add('hl');
+          const t = $('.t', l);
+          t.textContent = tag || '';
+          t.className = 't ' + (kind || 'ot');
+        });
+        const first = items.length && $(`.ln[data-n="${items[0][0]}"]`, pre);
+        if (first) {
+          const top = first.offsetTop - pre.clientHeight / 2;
+          if (first.offsetTop < pre.scrollTop || first.offsetTop > pre.scrollTop + pre.clientHeight - 30) pre.scrollTop = Math.max(0, top);
+        }
+      }
+    };
+    codeBlocks.set(pre, api);
+    if (pre.dataset.marks) {
+      api.mark(pre.dataset.marks.split('|').map((s) => {
+        const [num, tag] = s.split(':');
+        return [num, tag, 'ot'];
+      }));
+    }
+  });
+  const codeOf = (id) => codeBlocks.get(document.getElementById(id));
+
+  /* ---------- js/main.js 지도 ---------- */
+  const JS_BLOCKS = [
+    { name: '기준값 상수', from: 1, to: 4, flow: '60 · 300 · 0.2 · 아이디', go: 'scroll' },
+    { name: '다크 모드', from: 6, to: 21, flow: 'click → theme → renderTheme', go: 'state' },
+    { name: '햄버거', from: 23, to: 35, flow: 'click → classList.toggle', go: 'dom' },
+    { name: '스크롤', from: 37, to: 48, flow: 'scroll → toggle 2개', go: 'scroll' },
+    { name: '등장 애니메이션', from: 50, to: 60, flow: 'IntersectionObserver', go: 'scroll' },
+    { name: 'Projects', from: 62, to: 110, flow: 'fetch → status → renderProjects', go: 'fetch' },
+    { name: 'Contact 폼', from: 112, to: 154, flow: 'input · submit → 에러 → renderError', go: 'state' }
+  ];
+  const jsmap = $('#jsmap');
+  jsmap.innerHTML = `
+    <div style="display:flex;gap:3px;border-radius:10px;overflow:hidden;height:14px;margin-bottom:10px" aria-hidden="true">
+      ${JS_BLOCKS.map((b, i) => `<span style="flex:${b.to - b.from + 1};background:${i === 5 ? 'var(--accent)' : i === 6 || i === 1 ? 'color-mix(in srgb, var(--accent) 60%, var(--bg))' : 'var(--line)'}"></span>`).join('')}
+    </div>
+    <div class="tbl-wrap"><table><thead><tr><th>블록</th><th>줄</th><th>흐름</th></tr></thead><tbody>
+      ${JS_BLOCKS.map((b) => `<tr><td><a href="#${b.go}">${b.name}</a></td><td class="loc">${b.from}–${b.to}</td><td><code>${esc(b.flow)}</code></td></tr>`).join('')}
+    </tbody></table></div>`;
+
+  /* ---------- 1. 시맨틱 ---------- */
+  const SEM = {
+    header: { tag: '<header>', role: '모든 페이지에 반복되는 사이트 상단. 로고, 메뉴, 테마 버튼.', why: '공통 영역이라 main 밖에 둡니다. 스크린리더는 banner 영역으로 인식합니다.', loc: 'index.html:11-25' },
+    nav: { tag: '<nav>', role: '섹션으로 이동하는 앵커 링크 묶음 (#about, #skills, #projects, #contact).', why: '스크린리더가 navigation 영역으로 인식해 "메뉴로 바로 가기"가 가능해집니다. 링크 목록이라 ul · li 로 감쌌습니다.', loc: 'index.html:12-24' },
+    main: { tag: '<main>', role: '이 페이지만의 본문. 한 페이지에 하나.', why: '반복되는 머리 · 꼬리와 본문을 구분합니다. 검색엔진과 스크린리더가 본문을 바로 찾습니다.', loc: 'index.html:27-98' },
+    hero: { tag: '<section id="hero">', role: '인사말(h1)과 CTA 버튼 2개.', why: '페이지에 h1 은 여기 하나. CTA 는 페이지 안 위치로 이동하므로 button 이 아니라 a 입니다.', loc: 'index.html:28-37' },
+    about: { tag: '<section id="about">', role: '프로필 이미지와 자기소개.', why: '이미지에 alt="허준의 프로필 이미지" — 이미지가 안 보일 때와 스크린리더가 읽을 대체 텍스트.', loc: 'index.html:39-49' },
+    skills: { tag: '<section id="skills">', role: '기술 스택 10개.', why: '순서 없는 목록이므로 ul · li. 태그가 곧 "이건 목록"이라는 정보입니다.', loc: 'index.html:51-67' },
+    projects: { tag: '<section id="projects">', role: '빈 컨테이너 두 개(#projects-status, #projects-grid)만 있고 JS 가 채웁니다.', why: '상태 문구 자리와 카드 자리를 나눠서, 렌더 함수가 status 에 따라 둘 중 하나만 채웁니다.', loc: 'index.html:69-75' },
+    article: { tag: '<article class="card">', role: '저장소 카드 하나. JS 의 createCard 가 만듭니다.', why: '떼어내 다른 곳에 놓아도 그 자체로 의미가 완결되는 콘텐츠라서 article 입니다. section 은 "페이지 안의 한 주제 구역"이고, article 은 "독립된 한 편"입니다.', loc: 'js/main.js:66-72' },
+    contact: { tag: '<section id="contact">', role: '이름 · 이메일 · 메시지 폼.', why: 'label 의 for 와 input 의 id 를 맞춰서, 라벨을 누르면 입력칸에 포커스가 가고 스크린리더가 입력칸 이름을 읽습니다.', loc: 'index.html:77-97' },
+    footer: { tag: '<footer>', role: '저작권, GitHub 링크.', why: 'header 와 같은 이유로 main 밖. 스크린리더는 contentinfo 영역으로 인식합니다.', loc: 'index.html:100-105' }
+  };
+  const wire = $('#wire');
+  const info = $('#sem-info');
+  let semantic = true;
+  const showSem = (k) => {
+    const d = SEM[k];
+    $$('.wb', wire).forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.k === k)));
+    if (!semantic) {
+      info.innerHTML = `<h4>&lt;div&gt;</h4><dl><dt>브라우저가 아는 것</dt><dd>"여기 상자가 있다" 뿐입니다. 이 상자가 ${esc(d.tag)} 역할이라는 정보가 없습니다.</dd><dt>결과</dt><dd>스크린리더 사용자는 영역 단위로 건너뛸 수 없고, 코드를 읽는 사람은 클래스명을 봐야 역할을 압니다.</dd></dl>`;
+      return;
+    }
+    info.innerHTML = `<h4>${esc(d.tag)}</h4><dl><dt>무엇이 들어있나</dt><dd>${esc(d.role)}</dd><dt>왜 이 태그인가</dt><dd>${esc(d.why)}</dd><dt>위치</dt><dd><code>${d.loc}</code></dd></dl>`;
+  };
+  const LM = [['banner', 'header'], ['navigation', 'nav'], ['main', 'main'], ['contentinfo', 'footer']];
+  const renderLandmarks = () => {
+    const lm = $('#landmarks');
+    lm.innerHTML = '<span class="hint">스크린리더가 인식하는 영역:</span> ' + (semantic
+      ? LM.map(([r, t]) => `<span class="pill on">${r} (${t})</span>`).join(' ')
+      : '<span class="pill error">없음 — 전부 이름 없는 상자</span>');
+    wire.classList.toggle('divmode', !semantic);
+    $$('.wb .tag', wire).forEach((el) => {
+      if (!el.dataset.orig) el.dataset.orig = el.textContent;
+      el.textContent = semantic ? el.dataset.orig : '<div>';
+    });
+    $('#sem-on').setAttribute('aria-pressed', String(semantic));
+    $('#sem-off').setAttribute('aria-pressed', String(!semantic));
+  };
+  wire.addEventListener('click', (e) => { const b = e.target.closest('.wb'); if (b) showSem(b.dataset.k); });
+  $('#sem-on').addEventListener('click', () => { semantic = true; renderLandmarks(); showSem($('.wb[aria-pressed="true"]', wire)?.dataset.k || 'header'); });
+  $('#sem-off').addEventListener('click', () => { semantic = false; renderLandmarks(); showSem($('.wb[aria-pressed="true"]', wire)?.dataset.k || 'header'); });
+  renderLandmarks();
+  showSem('article');
+
+  /* ---------- 2. 레이아웃 시뮬레이터 ---------- */
+  const CARDS = [
+    ['b1-1-portfolio', 'Codyssey B1-1 · 순수 HTML/CSS/바닐라 JS로 만든 반응형…', 'CSS'],
+    ['b5-1-mini-redis', 'Codyssey B5-1 · 해시맵·이중연결리스트·최소힙을 직접 구현…', 'Python'],
+    ['b5-2-mini-git', 'Codyssey B5-2 · 커밋 DAG와 역색인을 직접 구현한 Mini…', 'Python'],
+    ['B1-1', '설명이 없습니다.', 'Shell'],
+    ['b3-1-aws-deploy', 'Codyssey B3-1 · AWS VPC/EC2/nginx 배포 런북과 최소권한…', 'Shell']
+  ];
+  const ls = { w: 375, mode: 'fit', count: 5 };
+  const mini = $('#mini'), stage = $('#ls-stage'), grid = $('#m-grid');
+  const cardHtml = ([n, d, l]) => `<div class="m-card"><b>${esc(n)}</b><p>${esc(d)}</p><p>${l} · ★ 0</p></div>`;
+  const fitStage = () => {
+    const scale = Math.min(1, stage.clientWidth / ls.w);
+    mini.style.width = ls.w + 'px';
+    mini.style.transform = `scale(${scale})`;
+    stage.style.height = Math.ceil(mini.offsetHeight * scale) + 'px';
+    return scale;
+  };
+  const renderLs = () => {
+    grid.className = 'm-grid ' + ls.mode;
+    grid.innerHTML = CARDS.slice(0, ls.count).map(cardHtml).join('');
+    $('#ls-w').value = ls.w;
+    $('#ls-wout').textContent = ls.w + 'px';
+    $$('#ls-preset button').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.w) === ls.w)));
+    $$('#ls-mode button').forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.m === ls.mode)));
+    $$('#ls-count button').forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.c) === ls.count)));
+    $('#bp-768').classList.toggle('on', ls.w >= 768);
+    $('#bp-1024').classList.toggle('on', ls.w >= 1024);
+    const scale = fitStage();
+    let colText;
+    if (ls.mode === 'flex') {
+      const tops = $$('.m-card', grid).map((c) => c.offsetTop);
+      const firstRow = tops.filter((t) => t === tops[0]).length;
+      const lastRow = tops.filter((t) => t === tops[tops.length - 1]).length;
+      colText = `Flexbox: 첫 줄 ${firstRow}개, 마지막 줄 ${lastRow}개` + (lastRow < firstRow ? ' → 마지막 줄 카드가 더 넓게 늘어남' : '');
+    } else {
+      const tracks = getComputedStyle(grid).gridTemplateColumns.split(' ').filter(Boolean);
+      const used = Math.min(ls.count, tracks.length);
+      const nonzero = tracks.filter((t) => parseFloat(t) > 0).length;
+      colText = `Grid 열 ${tracks.length}개 · 칸 폭 ${Math.round(parseFloat(tracks[0]))}px`;
+      if (ls.mode === 'fill' && tracks.length > used) colText += ` → ${tracks.length - used}칸이 비어 있음`;
+      if (ls.mode === 'fit' && nonzero < tracks.length) colText += ` → 빈 칸 ${tracks.length - nonzero}개는 0px 로 접힘`;
+    }
+    $('#ls-cols').innerHTML = `<span>Projects</span><span class="mono">${colText}</span>` + (scale < 1 ? `<span class="hint">실제 크기의 ${Math.round(scale * 100)}% 로 축소 표시</span>` : '');
+  };
+  $('#ls-w').addEventListener('input', (e) => { ls.w = Number(e.target.value); renderLs(); });
+  $('#ls-preset').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { ls.w = Number(b.dataset.w); renderLs(); } });
+  $('#ls-mode').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { ls.mode = b.dataset.m; renderLs(); } });
+  $('#ls-count').addEventListener('click', (e) => { const b = e.target.closest('button'); if (b) { ls.count = Number(b.dataset.c); renderLs(); } });
+  $('#ls-outline').addEventListener('change', (e) => { mini.classList.toggle('outline', e.target.checked); });
+  $('#m-burger').addEventListener('click', () => { $('#m-menu').classList.toggle('active'); fitStage(); });
+  new ResizeObserver(() => fitStage()).observe(stage);
+  new ResizeObserver(() => fitStage()).observe(mini);
+  renderLs();
+
+  /* ---------- 3. 버블링 데모 ---------- */
+  const bub = $('#bub'), bubLog = $('#bub-log');
+  bub.addEventListener('input', (event) => {
+    const t = event.target;
+    t.classList.add('flash');
+    setTimeout(() => { t.classList.remove('flash'); bub.classList.add('flash'); }, RM ? 0 : 180);
+    setTimeout(() => bub.classList.remove('flash'), RM ? 200 : 600);
+    $$('div', bubLog).forEach((d) => d.classList.add('old'));
+    bubLog.insertAdjacentHTML('afterbegin', `<div>form 이 'input' 받음 · event.target = #${t.id} (name="${t.name}") · value="${esc(t.value)}"</div>`);
+    while (bubLog.children.length > 4) bubLog.lastElementChild.remove();
+  });
+  bub.addEventListener('submit', (e) => e.preventDefault());
+
+  /* ---------- 4. 구조분해 필드 ---------- */
+  const FIELDS = ['id', 'node_id', 'name', 'full_name', 'private', 'owner', 'html_url', 'description', 'fork', 'url', 'created_at', 'updated_at', 'pushed_at', 'homepage', 'size', 'stargazers_count', 'watchers_count', 'language', 'forks_count', 'open_issues_count', 'default_branch'];
+  const PICK = ['name', 'description', 'html_url', 'language', 'stargazers_count'];
+  $('#fields').innerHTML = FIELDS.map((f) => `<span class="${PICK.includes(f) ? 'pick' : ''}">${f}</span>`).join('') + '<span>… 총 81개</span>';
+
+  /* ---------- 5. fetch 시뮬레이터 ---------- */
+  const fsCode = codeOf('fs-code');
+  const fsLog = $('#fs-log'), fsPill = $('#fs-pill'), fsResp = $('#fs-resp'), fsRender = $('#fs-render');
+  let fsScn = 'ok', fsRun = 0;
+  const log = (el, msg) => {
+    $$('div', el).forEach((d) => d.classList.add('old'));
+    el.insertAdjacentHTML('beforeend', `<div>${msg}</div>`);
+    while (el.children.length > 6) el.firstElementChild.remove();
+  };
+  const renderMini = (status) => {
+    fsPill.textContent = status;
+    fsPill.className = 'pill ' + status;
+    let body = '';
+    if (status === 'loading') body = '<p><span class="spin"></span>로딩 중...</p>';
+    else if (status === 'error') body = '<p>프로젝트를 불러올 수 없습니다.</p><button type="button" class="r-btn" id="fs-retry">다시 시도</button>';
+    else if (status === 'empty') body = '<p>표시할 프로젝트가 없습니다.</p>';
+    else body = `<div class="r-cards">${CARDS.slice(0, 4).map(([n, d, l]) => `<div class="r-card"><b>${esc(n)}</b><p>${esc(d)}</p><p>${l} · ★ 0</p></div>`).join('')}</div><p style="color:#5F6475;font-size:12.5px">… 외 19개</p>`;
+    fsRender.innerHTML = '<div class="r-h">Projects</div>' + body;
+    const retry = $('#fs-retry', fsRender);
+    if (retry) retry.addEventListener('click', () => runFetch('ok', true));
+  };
+  const setResp = (txt) => { fsResp.textContent = txt; fsResp.classList.remove('flash'); void fsResp.offsetWidth; fsResp.classList.add('flash'); };
+  const runFetch = async (scn, isRetry) => {
+    const id = ++fsRun;
+    const alive = () => id === fsRun;
+    $('#fs-run').disabled = true;
+    fsCode.clear();
+    fsLog.innerHTML = '';
+    fsResp.textContent = '—';
+    if (isRetry) log(fsLog, '다시 시도 click → loadProjects() 재실행 (이번엔 정상 응답으로 진행)');
+    fsCode.mark([[93, '호출', 'ev']], true);
+    await sleep(500); if (!alive()) return;
+    fsCode.mark([[94, "상태 → 'loading'", 'st']], true);
+    renderMini('loading');
+    log(fsLog, "renderProjects('loading') → 로딩 문구 표시");
+    await sleep(700); if (!alive()) return;
+    fsCode.mark([[97, 'await · 대기 중', 'ev']], true);
+    log(fsLog, 'fetch() 요청 보냄. 이 함수만 멈추고 화면은 계속 동작');
+    await sleep(1300); if (!alive()) return;
+    if (scn === 'offline') {
+      setResp('없음 (reject)');
+      log(fsLog, 'fetch 가 reject: TypeError: Failed to fetch');
+      fsCode.mark([[105, 'catch 로 점프', 'er']], true);
+      await sleep(800); if (!alive()) return;
+    } else {
+      const status = scn === '403' ? 403 : 200;
+      setResp(`HTTP ${status} · ok = ${status === 200}`);
+      log(fsLog, `응답 도착: HTTP ${status}${status === 403 ? ' (레이트 리밋)' : ''}`);
+      fsCode.mark([[99, status === 200 ? '!ok = false → 통과' : '!ok = true', status === 200 ? 'ot' : 'er']], true);
+      await sleep(900); if (!alive()) return;
+      if (status === 403) {
+        fsCode.mark([[100, 'throw', 'er']], true);
+        log(fsLog, "throw new Error('HTTP 403')");
+        await sleep(800); if (!alive()) return;
+        fsCode.mark([[105, 'catch 로 점프', 'er']], true);
+        await sleep(700); if (!alive()) return;
+      } else {
+        const n = scn === 'empty' ? 0 : 23;
+        fsCode.mark([[102, 'await · 본문 파싱', 'ev']], true);
+        log(fsLog, `response.json() → 배열 ${n}개`);
+        await sleep(900); if (!alive()) return;
+        fsCode.mark([[103, `filter: ${n} → ${n}`, 'ot']], true);
+        log(fsLog, `fork 제외: ${n}개 → ${n}개`);
+        await sleep(900); if (!alive()) return;
+        const st = n > 0 ? 'success' : 'empty';
+        fsCode.mark([[104, `상태 → '${st}'`, 'st']], true);
+        renderMini(st);
+        log(fsLog, `renderProjects('${st}', repos)`);
+        $('#fs-run').disabled = false;
+        return;
+      }
+    }
+    fsCode.mark([[106, "상태 → 'error'", 'st']], true);
+    renderMini('error');
+    log(fsLog, "renderProjects('error') → 에러 문구 + 다시 시도 버튼");
+    $('#fs-run').disabled = false;
+  };
+  $('#fs-scn').addEventListener('click', (e) => {
+    const b = e.target.closest('button'); if (!b) return;
+    fsScn = b.dataset.s;
+    $$('#fs-scn button').forEach((x) => x.setAttribute('aria-pressed', String(x === b)));
+  });
+  $('#fs-run').addEventListener('click', () => runFetch(fsScn, false));
+
+  /* ---------- 6-A. 다크 모드 시뮬레이터 ---------- */
+  const dkCode = codeOf('dk-code');
+  const dk = { theme: 'light', ls: null, running: 0 };
+  const setKv = (id, v) => { const el = $(id); el.textContent = v; el.classList.remove('flash'); void el.offsetWidth; el.classList.add('flash'); };
+  const paintPv = () => {
+    $('#dk-pv').classList.toggle('dark', dk.theme === 'dark');
+    $('#dk-pvicon').textContent = dk.theme === 'dark' ? '☀️' : '🌙';
+    renderVars();
+  };
+  const renderTheme = async (alive) => {
+    dkCode.mark([[11, '렌더', 'rd'], [12, '렌더', 'rd']], true);
+    setKv('#dk-attr', `"${dk.theme}"`);
+    setKv('#dk-icon', dk.theme === 'dark' ? '☀️' : '🌙');
+    paintPv();
+  };
+  const dkLock = (on) => { ['#dk-click', '#dk-reload', '#dk-clear'].forEach((s) => { $(s).disabled = on; }); };
+  $('#dk-click').addEventListener('click', async () => {
+    const id = ++dk.running; const alive = () => id === dk.running;
+    dkLock(true); dkCode.clear();
+    dkCode.mark([[15, '이벤트', 'ev']], true);
+    await sleep(600); if (!alive()) return;
+    dk.theme = dk.theme === 'dark' ? 'light' : 'dark';
+    dkCode.mark([[16, '상태 변경', 'st']], true);
+    setKv('#dk-var', `'${dk.theme}'`);
+    await sleep(700); if (!alive()) return;
+    dk.ls = dk.theme;
+    dkCode.mark([[17, '저장', 'st']], true);
+    setKv('#dk-ls', `'${dk.ls}'`);
+    await sleep(700); if (!alive()) return;
+    dkCode.mark([[18, '렌더 호출', 'ot']], true);
+    await sleep(500); if (!alive()) return;
+    await renderTheme();
+    dkLock(false);
+  });
+  $('#dk-reload').addEventListener('click', async () => {
+    const id = ++dk.running; const alive = () => id === dk.running;
+    dkLock(true); dkCode.clear();
+    setKv('#dk-var', '(아직 없음)');
+    setKv('#dk-attr', '(없음)');
+    await sleep(600); if (!alive()) return;
+    dk.theme = dk.ls || 'light';
+    dkCode.mark([[8, dk.ls ? `저장값 '${dk.ls}' 복원` : "저장값 없음 → 'light'", 'st']], true);
+    setKv('#dk-var', `'${dk.theme}'`);
+    await sleep(900); if (!alive()) return;
+    dkCode.mark([[21, '첫 렌더', 'ot']], true);
+    await sleep(500); if (!alive()) return;
+    await renderTheme();
+    dkLock(false);
+  });
+  $('#dk-clear').addEventListener('click', () => { dk.ls = null; setKv('#dk-ls', '(없음)'); });
+
+  const VARS = [
+    ['--color-bg', '#ffffff', '#12151d'],
+    ['--color-text', '#1b1d29', '#e8ebf2'],
+    ['--color-primary', '#3d5afe', '#8ea2ff'],
+    ['--color-error', '#d32f4b', '#ff7b8f']
+  ];
+  const renderVars = () => {
+    const d = dk.theme === 'dark';
+    $('#cssvars').innerHTML = `<div class="v"><span></span><span class="hint">:root (라이트)</span><span class="hint">[data-theme="dark"]</span></div>` +
+      VARS.map(([n, l, k]) => `<div class="v"><span>${n}</span><span class="sw ${d ? 'dim' : ''}"><i style="background:${l}"></i>${l}</span><span class="sw ${d ? '' : 'dim'}"><i style="background:${k}"></i>${k}</span></div>`).join('');
+  };
+  renderVars();
+
+  /* ---------- 6-B. 폼 시뮬레이터 ---------- */
+  const cfCode = codeOf('cf-code');
+  const cf = $('#cf');
+  const cfFields = $$('input, textarea', cf);
+  const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const validate = ({ name, value }) => {
+    if (value.trim() === '') return ['필수 입력 항목입니다.', 120];
+    if (name === 'email' && !EMAIL_PATTERN.test(value)) return ['올바른 이메일 형식이 아닙니다.', 123];
+    return ['', 125];
+  };
+  const cfState = {};
+  const renderError = (field, message) => {
+    $(`#${field.id}-error`).textContent = message;
+    field.classList.toggle('invalid', message !== '');
+    cfState[field.name] = message;
+  };
+  const renderStateTable = () => {
+    $('#cf-state').innerHTML = cfFields.map((f) => {
+      const m = cfState[f.name];
+      const val = m === undefined ? '<span class="hint">아직 검사 안 함</span>' : m === '' ? "<code>''</code> 통과" : `<span style="color:var(--err)">'${esc(m)}'</span>`;
+      return `<tr><td><code>${f.name}</code></td><td>${val}</td><td>${f.classList.contains('invalid') ? '<span class="pill error">있음</span>' : '<span class="pill">없음</span>'}</td></tr>`;
+    }).join('');
+  };
+  cf.addEventListener('input', (event) => {
+    const [message, line] = validate(event.target);
+    renderError(event.target, message);
+    $('#cf-success').textContent = '';
+    cfCode.clear();
+    cfCode.mark([[133, `이벤트 · target=#${event.target.id}`, 'ev'], [134, '검사 → 렌더', 'ot'], [line, '상태', 'st'], [129, '렌더', 'rd'], [130, '렌더', 'rd']]);
+    renderStateTable();
+  });
+  cf.addEventListener('submit', (event) => {
+    event.preventDefault();
+    let isValid = true;
+    const lines = new Set();
+    cfFields.forEach((field) => {
+      const [message, line] = validate(field);
+      lines.add(line);
+      renderError(field, message);
+      if (message) isValid = false;
+    });
+    cfCode.clear();
+    const marks = [[138, '이벤트', 'ev'], [139, '새로고침 막음', 'ot'], [142, '필드 3개 순회', 'ot']];
+    lines.forEach((l) => marks.push([l, '상태', 'st']));
+    marks.push([144, '렌더', 'rd']);
+    if (isValid) {
+      marks.push([151, '성공 문구', 'rd'], [152, '초기화', 'rd']);
+      $('#cf-success').textContent = '메시지가 전송되었습니다. 감사합니다!';
+      cf.reset();
+    } else {
+      marks.push([150, 'isValid = false → 건너뜀', 'er']);
+    }
+    cfCode.mark(marks);
+    renderStateTable();
+  });
+  renderStateTable();
+
+  const tabs = [['tab-dark', 'pane-dark'], ['tab-form', 'pane-form']];
+  tabs.forEach(([t, p]) => {
+    $('#' + t).addEventListener('click', () => {
+      tabs.forEach(([t2, p2]) => {
+        $('#' + t2).setAttribute('aria-selected', String(t2 === t));
+        $('#' + p2).hidden = t2 !== t;
+      });
+    });
+  });
+
+  /* ---------- 7. 스크롤 데모 ---------- */
+  const ss = $('#ss'), ssHead = $('#ss-head'), ssTop = $('#ss-top');
+  const boxes = $$('.ss-box', ss);
+  const ssRender = () => {
+    const y = Math.round(ss.scrollTop);
+    ssHead.classList.toggle('scrolled', y > 60);
+    ssTop.classList.toggle('visible', y > 300);
+    $('#ss-y').textContent = y + 'px';
+    $('#ss-h').textContent = String(y > 60);
+    $('#ss-t').textContent = String(y > 300);
+    $('#ss-fill').style.width = Math.min(100, (y / 600) * 100) + '%';
+    $('#ss-r').textContent = `${boxes.filter((b) => b.classList.contains('visible')).length} / 3`;
+  };
+  let observer;
+  const observe = () => {
+    if (observer) observer.disconnect();
+    observer = new IntersectionObserver((entries) => {
+      entries.forEach(({ isIntersecting, target }) => {
+        if (isIntersecting) {
+          target.classList.add('visible');
+          observer.unobserve(target);
+          ssRender();
+        }
+      });
+    }, { root: ss, threshold: 0.2 });
+    boxes.forEach((b) => observer.observe(b));
+  };
+  ss.addEventListener('scroll', ssRender);
+  ssTop.addEventListener('click', () => ss.scrollTo({ top: 0, behavior: RM ? 'auto' : 'smooth' }));
+  ssHead.addEventListener('click', (e) => {
+    const a = e.target.closest('a[data-to]'); if (!a) return;
+    ss.scrollTo({ top: document.getElementById(a.dataset.to).offsetTop - 44, behavior: RM ? 'auto' : 'smooth' });
+  });
+  $('#ss-reset').addEventListener('click', () => {
+    boxes.forEach((b) => b.classList.remove('visible'));
+    ss.scrollTo({ top: 0 });
+    observe();
+    ssRender();
+  });
+  observe();
+  ssRender();
+
+  /* ---------- Q&A ---------- */
+  const QA = [
+    ['var 를 왜 안 쓰나요?', 'var 는 함수 스코프라 if · for 블록 밖으로 새고, 같은 이름을 다시 선언해도 에러가 없고, 선언 전에 접근하면 undefined 가 됩니다. let · const 는 블록 스코프이고 재선언이 안 되며 선언 전 접근은 ReferenceError(TDZ)입니다. 재할당이 필요 없는 건 전부 const, 재할당하는 isValid 와 theme 만 let 입니다.'],
+    ['textContent 와 innerHTML 의 차이는?', 'textContent 는 문자열을 글자 그대로 넣고 HTML 로 해석하지 않습니다. innerHTML 은 HTML 로 파싱해서 요소를 만듭니다. 태그가 필요한 Projects 카드와 상태 문구에만 innerHTML, 테마 아이콘과 폼 메시지는 textContent 를 썼습니다.'],
+    ['innerHTML 을 쓰면 보안 문제는 없나요?', '외부 입력을 넣으면 XSS 위험이 있습니다. 저는 GitHub API 의 description 을 이스케이프 없이 넣고 있습니다. 제 계정의 데이터라 실제 위험은 낮지만, 설명에 < 가 있으면 HTML 로 해석됩니다. 고친다면 createElement 와 textContent 로 카드를 만들거나 문자열을 이스케이프하겠습니다.'],
+    ['defer 스크립트인데 DOMContentLoaded 를 안 기다려도 되나요?', 'defer 스크립트는 HTML 파싱이 끝난 뒤, DOMContentLoaded 가 발생하기 직전에 실행됩니다. 실행 시점에 DOM 이 완성되어 있으므로 따로 기다릴 필요가 없습니다.'],
+    ['scroll 이벤트는 자주 발생하는데 성능은 괜찮나요?', '스크롤 중 매우 자주 호출되지만, 핸들러는 비교 두 번과 classList.toggle 두 번이라 가볍습니다. 값이 그대로면 DOM 도 바뀌지 않습니다. 무거워지면 throttle 이나 requestAnimationFrame 으로 줄이고, 요소가 보이는지 확인하는 일은 IntersectionObserver 로 넘기겠습니다. 등장 애니메이션은 이미 IntersectionObserver 를 씁니다.'],
+    ['레이트 리밋에 걸리면 어떻게 되나요?', '인증 없는 요청은 IP 당 시간당 60회입니다. 넘으면 403 이 오고, fetch 는 reject 하지 않지만 response.ok 가 false 라서 제가 throw 합니다. 그래서 catch 로 가서 에러 문구와 다시 시도 버튼이 보입니다.'],
+    ['API 가 저장소를 전부 돌려주나요?', '기본 per_page 가 30개입니다. 지금 23개라 전부 나오지만 30개를 넘으면 ?per_page=100 을 붙이거나 페이지를 나눠 요청해야 합니다.'],
+    ['포크는 왜 뺐나요?', '포크는 다른 사람 코드를 복사한 저장소라 제 프로젝트 소개에 맞지 않습니다. filter 를 쓴 곳입니다. 지금은 포크가 0개라 걸러지는 건 없습니다.'],
+    ['다크 모드가 새로고침 후에도 유지되는 원리는?', '클릭할 때 localStorage.setItem 으로 저장하고, 페이지가 로드될 때 getItem 으로 읽어 theme 의 초기값으로 씁니다. 저장값이 없으면 light 입니다. 그다음 renderTheme() 을 한 번 호출해서 html 에 data-theme 을 붙입니다.'],
+    ['localStorage 와 sessionStorage 의 차이는?', '둘 다 origin 별 문자열 key-value 저장소입니다. localStorage 는 브라우저를 닫아도 남고, sessionStorage 는 탭을 닫으면 사라집니다. 테마는 다음 방문에도 유지돼야 해서 localStorage 입니다.'],
+    ['새로고침할 때 잠깐 밝게 보이지 않나요?', '그럴 수 있습니다. defer 스크립트가 실행되기 전에 첫 화면이 그려지면 라이트 테마가 잠깐 보입니다(FOUC). head 안의 짧은 인라인 스크립트로 data-theme 을 먼저 붙이면 해결됩니다. 이 프로젝트는 처리하지 않았고, 직접 측정해보지는 않았습니다.'],
+    ['이벤트 위임이 뭔가요?', '자식마다 리스너를 다는 대신 부모 하나에 달고, 이벤트가 부모로 전파(bubbling)되는 걸 이용해 받는 방법입니다. 폼 input 리스너가 예시이고, 어느 칸에서 발생했는지는 event.target 으로 압니다.'],
+    ['preventDefault 를 안 하면?', '폼의 기본 동작은 action URL(없으면 현재 URL)로 전송하고 페이지를 새로 여는 것입니다. 새로고침되면서 입력값과 에러 · 성공 메시지가 사라집니다.'],
+    ['label 의 for 는 왜 맞추나요?', '라벨을 누르면 연결된 입력칸에 포커스가 가고, 스크린리더가 입력칸에 들어갔을 때 라벨을 이름으로 읽어줍니다.'],
+    ['카드도 Flexbox 로 할 수 있지 않나요?', 'flex-wrap 으로 가능하지만, 마지막 줄 카드가 남은 폭을 혼자 차지해서 다른 줄과 폭이 달라집니다. Grid 는 열 폭이 먼저 정해져서 모든 카드가 같은 폭으로 줄을 맞춥니다. 목표 2 의 시뮬레이터에서 바꿔볼 수 있습니다.'],
+    ['auto-fit 과 auto-fill 의 차이는?', '아이템이 들어갈 칸보다 적을 때 차이가 납니다. auto-fill 은 빈 칸을 남겨두고, auto-fit 은 빈 칸을 0 으로 접어서 있는 아이템이 남은 폭을 나눠 가집니다.'],
+    ['외부 라이브러리는 정말 없나요?', '없습니다. 아이콘은 이모지와 문자(🌙 ☀️ ☰ ↑), 폰트는 시스템 폰트입니다.'],
+    ['보너스는 왜 안 했나요?', '필수 요구사항과 "이벤트 → 상태 → 렌더" 흐름을 분명하게 보여주는 데 집중했습니다.'],
+    ['Live Server 는 왜 쓰나요?', '파일을 저장하면 브라우저를 자동으로 새로고침하는 로컬 개발 서버입니다. .vscode/extensions.json 에 추천 확장으로 넣었습니다. file:// 로 열면 origin 이 달라서 배포 환경과 동작이 다를 수 있으니 서버로 여는 게 배포와 가깝습니다.'],
+    ['GitHub Pages 배포는 어떻게 했나요?', '저장소 Settings → Pages 에서 main 브랜치 루트를 소스로 지정했습니다. push 하면 https://nansu0425.github.io/b1-1-portfolio/ 에서 정적 파일이 서빙됩니다. 경로를 전부 상대경로(css/style.css)로 써서 /b1-1-portfolio/ 같은 하위 경로에서도 동작합니다.']
+  ];
+  const known = store.get('b11-known') || {};
+  const qaList = $('#qa-list');
+  qaList.innerHTML = QA.map(([q, a], i) => `
+    <div class="qa-item">
+      <button type="button" aria-expanded="false" aria-controls="qa-a-${i}">${esc(q)}</button>
+      <div class="a" id="qa-a-${i}" hidden>
+        <p>${esc(a)}</p>
+        <label class="known"><input type="checkbox" data-i="${i}" ${known[i] ? 'checked' : ''}> 설명할 수 있음</label>
+      </div>
+    </div>`).join('');
+  const qaCount = () => { $('#qa-count').textContent = `설명 가능 ${Object.values(known).filter(Boolean).length} / ${QA.length}`; };
+  qaList.addEventListener('click', (e) => {
+    const b = e.target.closest('.qa-item > button'); if (!b) return;
+    const open = b.getAttribute('aria-expanded') !== 'true';
+    b.setAttribute('aria-expanded', String(open));
+    b.nextElementSibling.hidden = !open;
+  });
+  qaList.addEventListener('change', (e) => {
+    const c = e.target.closest('input[data-i]'); if (!c) return;
+    known[c.dataset.i] = c.checked; store.set('b11-known', known); qaCount();
+  });
+  let allOpen = false;
+  $('#qa-all').addEventListener('click', () => {
+    allOpen = !allOpen;
+    $$('.qa-item > button', qaList).forEach((b) => { b.setAttribute('aria-expanded', String(allOpen)); b.nextElementSibling.hidden = !allOpen; });
+    $('#qa-all').textContent = allOpen ? '전부 접기' : '전부 펼치기';
+  });
+  qaCount();
+
+  /* ---------- 시연 체크리스트 ---------- */
+  const DEMO = [
+    ['데스크톱 레이아웃', ['로고 왼쪽 · 메뉴 오른쪽 (Flexbox)', '메뉴를 눌러 섹션으로 부드럽게 이동']],
+    ['스크롤', ['조금 내리면 헤더 배경이 생김 (60px)', '더 내리면 ↑ 버튼 등장 (300px)', 'About · Skills · Contact 가 떠오르며 나타남', '↑ 클릭 → 맨 위로']],
+    ['다크 모드', ['🌙 클릭 → 전환', 'F5 → 유지됨', 'DevTools → Application → Local Storage 에서 theme 값 보여주기']],
+    ['반응형', ['DevTools 기기 모드 (Ctrl+Shift+M) → 375px', '메뉴가 사라지고 ☰ 등장 → 열기 · 닫기 · 링크 누르면 닫힘', '폭을 늘리며 카드 열 수 변화, 768px 에서 메뉴가 가로로']],
+    ['Projects 상태', ['성공: 카드 목록', '로딩: Network 탭 → Throttling "Slow 3G" → 새로고침', '에러: Network 탭 → "Offline" → 새로고침 → 에러 + 다시 시도 → Online 으로 되돌리고 다시 시도 → 카드', '빈 상태: 실제로 재현하기 어려움 → js/main.js:104 의 삼항 연산자로 설명']],
+    ['폼', ['빈 채로 보내기 → 세 칸 모두 에러', '이메일에 abc → 형식 에러', '입력하면 에러가 바로 사라짐', '정상 제출 → 성공 문구 + 폼 초기화']],
+    ['코드', ['js/main.js 를 위에서부터: 상수 → 다크 모드 → 햄버거 → 스크롤 → 애니메이션 → Projects → 폼', '각 블록 주석의 "이벤트 → 상태 → 렌더" 짚기']]
+  ];
+  const done = store.get('b11-demo') || {};
+  const demoList = $('#demo-list');
+  demoList.innerHTML = DEMO.map(([t, subs], i) => `
+    <li class="${done[i] ? 'done' : ''}">
+      <input type="checkbox" id="demo-${i}" data-i="${i}" ${done[i] ? 'checked' : ''}>
+      <label for="demo-${i}"><b>${esc(t)}</b></label>
+      <div class="sub"><ol>${subs.map((s) => `<li>${esc(s)}</li>`).join('')}</ol></div>
+    </li>`).join('');
+  demoList.addEventListener('change', (e) => {
+    const c = e.target.closest('input[data-i]'); if (!c) return;
+    done[c.dataset.i] = c.checked; store.set('b11-demo', done);
+    c.closest('li').classList.toggle('done', c.checked);
+  });
+
+  /* ---------- 요구사항 표 ---------- */
+  const REQ = [
+    ['폴더 분리', 'index.html · css/ · js/ · images/', '루트'],
+    ['외부 CSS · JS 연결, defer', '<link rel="stylesheet">, <script src defer>', 'index.html:7-8'],
+    ['시맨틱 태그', 'header · nav · main · section · article · footer', 'index.html 전체, article 은 main.js:67'],
+    ['앵커 링크', 'href="#about" 등', 'index.html:13,16-19'],
+    ['이미지 alt', '"허준의 프로필 이미지"', 'index.html:41'],
+    ['label for ↔ id', 'name · email · message', 'index.html:81-90'],
+    [':root 변수', '--color-* · --font · --space-*', 'style.css:2-18'],
+    ['다크 모드 변수', '[data-theme="dark"]', 'style.css:20-29'],
+    ['네비게이션 Flexbox', '.nav { display:flex }', 'style.css:123-128'],
+    ['Projects Grid', 'repeat(auto-fit, minmax(260px, 1fr))', 'style.css:221-225'],
+    ['모바일 퍼스트 768 · 1024', '@media (min-width: …)', 'style.css:323,354'],
+    ['모바일 메뉴 숨김 + 햄버거', '기본 display:none, 768px 이상 .nav-toggle 숨김', 'style.css:136-149,340-342'],
+    ['hover + transition, box-shadow', '.btn · .card', 'style.css:78-93,227-238'],
+    ['const · let 만', 'var 없음', 'main.js 전체'],
+    ['onclick 속성 · 인라인 style 없음', '전부 addEventListener · 클래스 토글', 'index.html 전체'],
+    ['querySelector(All)', '', 'main.js:7,24,25,31,38,39,60…'],
+    ['textContent / innerHTML', '테마 아이콘 · 폼 / Projects', 'main.js:12,129,151 / 78-89'],
+    ['classList add · remove · toggle', '애니메이션 / 메뉴 닫기 / 햄버거 · 스크롤 · 폼', 'main.js:54 / 33 / 28,42,43,130'],
+    ['click · submit · scroll · input', '', 'main.js:15,27,32,41,46,133,138'],
+    ['preventDefault()', '폼 제출', 'main.js:139'],
+    ['햄버거 toggle("active")', '', 'main.js:27-29'],
+    ['부드러운 스크롤', 'scroll-behavior: smooth', 'style.css:38-41'],
+    ['스크롤 탑 300px', '.visible + scrollTo smooth', 'main.js:43,46-48'],
+    ['헤더 배경 60px', '.scrolled', 'main.js:42, style.css:118-121'],
+    ['다크 모드 + localStorage', '', 'main.js:7-21'],
+    ['스크롤 애니메이션 0.2', 'IntersectionObserver + .reveal', 'main.js:51-60, style.css:311-320'],
+    ['폼 검증 · 에러 · 성공', '', 'main.js:113-154'],
+    ['화살표 · 템플릿 리터럴 · 구조분해', '', 'main.js 전반 / 66-72 / 52,66,118'],
+    ['map · filter · forEach', '카드 변환 · 포크 제외 · 순회', 'main.js:89 / 103 / 31,52,60,142'],
+    ['fetch + async/await + try/catch', 'loadProjects', 'main.js:93-108'],
+    ['로딩 · 성공 · 에러(+재시도) · 빈 상태', 'renderProjects(status)', 'main.js:74-91'],
+    ['403 → 에러 UI', '!response.ok 면 throw', 'main.js:99-101'],
+    ['README', '설명 · 기술 · URL · 스크린샷 · 기준값', 'README.md']
+  ];
+  $('#req-body').innerHTML = REQ.map(([a, b, c]) => `<tr><td>${esc(a)}</td><td>${b ? `<code>${esc(b)}</code>` : ''}</td><td class="loc">${esc(c)}</td></tr>`).join('');
+
+  /* ---------- 목차 현재 위치 ---------- */
+  const tocLinks = $$('#toc a');
+  const secs = tocLinks.map((a) => document.getElementById(a.getAttribute('href').slice(1)));
+  const tocObs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (!e.isIntersecting) return;
+      tocLinks.forEach((a) => a.classList.toggle('on', a.getAttribute('href') === '#' + e.target.id));
+      const on = $('#toc a.on');
+      if (on && window.innerWidth < 1060) on.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+    });
+  }, { rootMargin: '-35% 0px -60% 0px' });
+  secs.forEach((s) => s && tocObs.observe(s));
+})();
+</script>
+</body>
+</html>

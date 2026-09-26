@@ -44,6 +44,11 @@ images/profile.svg
 |---|---|---|
 | ![데스크톱](images/screenshots/desktop-light.png) | ![모바일](images/screenshots/mobile.png) | ![다크 모드](images/screenshots/desktop-dark.png) |
 
+## 학습 자료
+
+- [웹 기초 교재](docs/primer.html) — 이 프로젝트 코드를 읽는 데 필요한 HTML · CSS · JS · 비동기 배경지식
+- [포트폴리오 해설](docs/guide.html) — 과제 목표별 구현 설명, 예상 질문, 시연 순서
+
 ## 로컬 실행
 
 VS Code 에서 폴더를 열고 Live Server 확장의 **Go Live** 를 누릅니다.
