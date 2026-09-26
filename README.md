@@ -46,8 +46,8 @@ images/profile.svg
 
 ## 학습 자료
 
-- [웹 기초 교재](docs/primer.html) — 이 프로젝트 코드를 읽는 데 필요한 HTML · CSS · JS · 비동기 배경지식
-- [포트폴리오 해설](docs/guide.html) — 과제 목표별 구현 설명, 예상 질문, 시연 순서
+- [웹 기초 교재](https://nansu0425.github.io/b1-1-portfolio/docs/primer.html) — 이 프로젝트 코드를 읽는 데 필요한 HTML · CSS · JS · 비동기 배경지식
+- [포트폴리오 해설](https://nansu0425.github.io/b1-1-portfolio/docs/guide.html) — 과제 목표별 구현 설명, 예상 질문, 시연 순서
 
 ## 로컬 실행
 
